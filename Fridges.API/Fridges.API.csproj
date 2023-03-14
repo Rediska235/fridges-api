@@ -15,4 +15,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Fridges.Application\Fridges.Application.csproj" />
+  </ItemGroup>
+
 </Project>
