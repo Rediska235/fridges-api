@@ -1,4 +1,5 @@
-﻿using Fridges.Application.Interfaces.Repositories;
+﻿using Fridges.API.DTOs;
+using Fridges.Application.Interfaces.Repositories;
 using Fridges.Application.Interfaces.Services;
 using Fridges.Domain.Entities;
 
@@ -23,9 +24,18 @@ public class FridgeService : IFridgeService
         return _repository.GetFridgeById(FridgeId);
     }
 
-    public void CreateFridge(Fridge Fridge)
+    public Fridge CreateFridge(FridgeCreateDto Fridge)
     {
-        _repository.InsertFridge(Fridge);
+        var fridge = new Fridge()
+        {
+            Id = new Guid(),
+            Name = Fridge.Name,
+            OwnerName = Fridge.OwnerName
+            //FridgeModel =                                  //возможно достать FridgeModel из DB по Guid
+        };
+        _repository.InsertFridge(fridge);
+
+        return fridge;
     }
 
     public void UpdateFridge(Fridge Fridge)

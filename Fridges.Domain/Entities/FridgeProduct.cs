@@ -1,7 +1,10 @@
-﻿namespace Fridges.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Fridges.Domain.Entities;
 
 public class FridgeProduct
 {
+    [Key]
     public Guid Id { get; set; }
 
     public Fridge Fridge { get; set; }

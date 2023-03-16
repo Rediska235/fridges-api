@@ -1,4 +1,5 @@
-﻿using Fridges.Application.Interfaces.Services;
+﻿using Fridges.API.DTOs;
+using Fridges.Application.Interfaces.Services;
 using Fridges.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,10 +29,10 @@ public class FridgeController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateFridge(Fridge Fridge)
+    public IActionResult CreateFridge(FridgeCreateDto Fridge)
     {
-        _service.CreateFridge(Fridge);
-        return Ok();    //Created
+        var fridge = _service.CreateFridge(Fridge);
+        return Created($"/api/fridges/{fridge.Id}", fridge);
     }
 
     [HttpPatch]
@@ -47,4 +48,18 @@ public class FridgeController : ControllerBase
         _service.DeleteFridge(id);
         return Ok();
     }
+
+    /*[HttpPatch("{id}")]
+    public IActionResult AddProducts(Guid id)
+    {
+        _service.AddProducts(id);
+        return Ok();
+    }
+
+    [HttpPatch("{id}")]
+    public IActionResult RemoveProducts(Guid id)
+    {
+        _service.RemoveProducts(id);
+        return Ok();
+    }*/
 }

@@ -4,6 +4,7 @@ namespace Fridges.Domain.Entities;
 
 public class Fridge 
 {
+    [Key]
     public Guid Id { get; set; }
 
     [MaxLength(50)]

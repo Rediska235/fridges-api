@@ -1,4 +1,5 @@
-﻿using Fridges.Application.Interfaces.Services;
+﻿using Fridges.API.DTOs;
+using Fridges.Application.Interfaces.Services;
 using Fridges.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,10 +29,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateProduct(Product product)
+    public IActionResult CreateProduct(ProductCreateDto Product)
     {
-        _service.CreateProduct(product);
-        return Ok();    //Created
+        var product = _service.CreateProduct(Product);
+        return Created($"/api/products/{product.Id}", product);
     }
 
     [HttpPatch]

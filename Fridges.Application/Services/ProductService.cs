@@ -1,4 +1,5 @@
-﻿using Fridges.Application.Interfaces.Repositories;
+﻿using Fridges.API.DTOs;
+using Fridges.Application.Interfaces.Repositories;
 using Fridges.Application.Interfaces.Services;
 using Fridges.Domain.Entities;
 
@@ -23,9 +24,17 @@ public class ProductService : IProductService
         return _repository.GetProductById(ProductId);
     }
 
-    public void CreateProduct(Product Product)
+    public Product CreateProduct(ProductCreateDto Product)
     {
-        _repository.InsertProduct(Product);
+        var product = new Product()
+        {
+            Id = new Guid(),
+            Name = Product.Name,
+            DefaultQuantity = Product.DefaultQuantity
+        };
+        _repository.InsertProduct(product);
+
+        return product;
     }
 
     public void UpdateProduct(Product Product)
