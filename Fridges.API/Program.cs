@@ -3,8 +3,10 @@ using Fridges.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = builder.Configuration;
+
 builder.Services.AddAplicaton();
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(configuration);
 
 builder.Services.AddControllers();
 

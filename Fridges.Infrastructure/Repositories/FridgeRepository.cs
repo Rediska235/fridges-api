@@ -18,7 +18,7 @@ public class FridgeRepository : IFridgeRepository
         return _db.Fridges;
     }
 
-    public Fridge GetFridgeByID(Guid FridgeId)
+    public Fridge GetFridgeById(Guid FridgeId)
     {
         return _db.Fridges.FirstOrDefault(p => p.Id == FridgeId);
     }
@@ -35,9 +35,9 @@ public class FridgeRepository : IFridgeRepository
         Save();
     }
 
-    public void DeleteFridge(Guid FridgeID)
+    public void DeleteFridge(Guid FridgeId)
     {
-        var fridge = GetFridgeByID(FridgeID);
+        var fridge = GetFridgeById(FridgeId);
         _db.Remove(fridge);
         Save();
     }

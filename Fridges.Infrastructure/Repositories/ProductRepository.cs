@@ -18,7 +18,7 @@ public class ProductRepository : IProductRepository
         return _db.Products;
     }
 
-    public Product GetProductByID(Guid ProductId)
+    public Product GetProductById(Guid ProductId)
     {
         return _db.Products.FirstOrDefault(p => p.Id == ProductId);
     }
@@ -35,9 +35,9 @@ public class ProductRepository : IProductRepository
         Save();
     }
 
-    public void DeleteProduct(Guid ProductID)
+    public void DeleteProduct(Guid ProductId)
     {
-        var product = GetProductByID(ProductID);
+        var product = GetProductById(ProductId);
         _db.Remove(product);
         Save();
     }

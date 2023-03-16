@@ -1,32 +1,40 @@
-﻿using Fridges.Application.Interfaces.Services;
+﻿using Fridges.Application.Interfaces.Repositories;
+using Fridges.Application.Interfaces.Services;
 using Fridges.Domain.Entities;
 
 namespace Fridges.Application.Implementations;
 
 public class ProductService : IProductService
 {
-    public void CreateProduct(Product Product)
-    {
-        throw new NotImplementedException();
-    }
+    private readonly IProductRepository _repository;
 
-    public void DeleteProduct(int ProductID)
+    public ProductService(IProductRepository repository)
     {
-        throw new NotImplementedException();
+        _repository = repository;
     }
 
     public IEnumerable<Product> GetAllProducts()
     {
-        throw new NotImplementedException();
+        return _repository.GetProducts();
     }
 
-    public Product GetProductByID(int ProductId)
+    public Product GetProductById(Guid ProductId)
     {
-        throw new NotImplementedException();
+        return _repository.GetProductById(ProductId);
+    }
+
+    public void CreateProduct(Product Product)
+    {
+        _repository.InsertProduct(Product);
     }
 
     public void UpdateProduct(Product Product)
     {
-        throw new NotImplementedException();
+        _repository.UpdateProduct(Product);
+    }
+
+    public void DeleteProduct(Guid ProductId)
+    {
+        _repository.DeleteProduct(ProductId);
     }
 }
