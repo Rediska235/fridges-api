@@ -1,7 +1,6 @@
 ﻿using Fridges.API.DTOs;
 using Fridges.Application.DTOs;
 using Fridges.Application.Interfaces.Services;
-using Fridges.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fridges.API.Controllers;
@@ -38,15 +37,9 @@ public class FridgeController : ControllerBase
     }
 
     [HttpPost("{fridgeId}/products")]
-    public IActionResult AddProducts(Guid fridgeId, ProductIdQuantityDto productIdQuantityDto)
+    public IActionResult AddProducts(Guid fridgeId, AddProductsDto addProductsDto)
     {
-        AddProductsDto addProductsDto = new()
-        {
-            FridgeId = fridgeId,
-            ProductId = productIdQuantityDto.ProductId,
-            Quantity = productIdQuantityDto.Quanity
-        };
-        _service.AddProducts(addProductsDto);
+        _service.AddProducts(fridgeId, addProductsDto);
         return Ok();
     }
 

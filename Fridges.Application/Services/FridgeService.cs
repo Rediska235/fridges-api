@@ -40,13 +40,13 @@ public class FridgeService : IFridgeService
         return _fridgeProductRepository.GetProductsByFridgeId(FridgeId);
     }
 
-    public void AddProducts(AddProductsDto addProductsDto)
+    public void AddProducts(Guid fridgeId, AddProductsDto addProductsDto)
     {
         FridgeProduct fridgeProduct = new()
         {
-            Fridge = _repository.GetFridgeById(addProductsDto.FridgeId),
+            Fridge = _repository.GetFridgeById(fridgeId),
             Product = _productRepository.GetProductById(addProductsDto.ProductId),
-            Quantity = addProductsDto.Quantity
+            Quantity = addProductsDto.Quanity
         };
         _fridgeProductRepository.AddProducts(fridgeProduct);
     }
