@@ -13,6 +13,6 @@ public interface IFridgeService
     void AddProducts(AddProductsDto addProductsDto);
     void RemoveProducts(Guid FridgeId, Guid ProductId);
     Fridge CreateFridge(FridgeCreateDto Fridge);
-    void UpdateFridge(Fridge Fridge);
+    void UpdateFridge(UpdateFridgeDto updateFridgeDto);
     void DeleteFridge(Guid FridgeID);
 }

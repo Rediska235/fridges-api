@@ -1,4 +1,5 @@
 ﻿using Fridges.API.DTOs;
+using Fridges.Application.DTOs;
 using Fridges.Application.Interfaces.Services;
 using Fridges.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -35,10 +36,10 @@ public class ProductController : ControllerBase
         return Created($"/api/products/{product.Id}", product);
     }
 
-    [HttpPatch]
-    public IActionResult UpdateProduct(Product product)
+    [HttpPut]
+    public IActionResult UpdateProduct(UpdateProductDto updateProductDto)
     {
-        _service.UpdateProduct(product);
+        _service.UpdateProduct(updateProductDto);
         return Ok();
     }
 

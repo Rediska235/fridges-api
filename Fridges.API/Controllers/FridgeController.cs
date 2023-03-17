@@ -64,10 +64,10 @@ public class FridgeController : ControllerBase
         return Created($"/api/fridges/{fridge.Id}", fridge);
     }
 
-    [HttpPatch]
-    public IActionResult UpdateFridge(Fridge Fridge)
+    [HttpPut]
+    public IActionResult UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
-        _service.UpdateFridge(Fridge);
+        _service.UpdateFridge(updateFridgeDto);
         return Ok();
     }
 

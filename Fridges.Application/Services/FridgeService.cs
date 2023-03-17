@@ -76,9 +76,18 @@ public class FridgeService : IFridgeService
         return fridge;
     }
 
-    public void UpdateFridge(Fridge Fridge)
+    public void UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
-        _repository.UpdateFridge(Fridge);
+        var fridge = new Fridge()
+        {
+            Id = updateFridgeDto.Id,
+            Name = updateFridgeDto.Name,
+            OwnerName = updateFridgeDto.OwnerName,
+            FridgeModel = _fridgeModelRepository.GetFridgeModelById(updateFridgeDto.FridgeModelId),
+            FridgeProducts = null
+        };
+
+        _repository.UpdateFridge(fridge);
     }
 
     public void DeleteFridge(Guid FridgeId)
