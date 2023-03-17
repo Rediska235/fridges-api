@@ -4,7 +4,6 @@ namespace Fridges.API.DTOs;
 
 public class CreateFridgeDto
 {
-
     [MaxLength(50)]
     public string Name { get; set; }
 

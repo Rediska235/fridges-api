@@ -38,13 +38,13 @@ public class FridgeController : ControllerBase
     }
 
     [HttpPost("{fridgeId}/products")]
-    public IActionResult AddProducts(Guid fridgeId, Guid productId, [FromBody] int quantity)
+    public IActionResult AddProducts(Guid fridgeId, ProductIdQuantityDto productIdQuantityDto)
     {
         AddProductsDto addProductsDto = new()
         {
             FridgeId = fridgeId,
-            ProductId = productId,
-            Quantity = quantity
+            ProductId = productIdQuantityDto.ProductId,
+            Quantity = productIdQuantityDto.Quanity
         };
         _service.AddProducts(addProductsDto);
         return Ok();
