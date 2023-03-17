@@ -1,6 +1,6 @@
 ﻿using Fridges.Domain.Entities;
 
-namespace Fridges.Application.Interfaces.Repositories;
+namespace Fridges.Application.Repositories;
 
 public interface IFridgeModelRepository
 {

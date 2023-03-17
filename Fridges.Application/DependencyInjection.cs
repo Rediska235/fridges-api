@@ -1,5 +1,5 @@
-﻿using Fridges.Application.Implementations;
-using Fridges.Application.Interfaces.Services;
+﻿using Fridges.Application.Services.Implementations;
+using Fridges.Application.Services.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fridges.Application;

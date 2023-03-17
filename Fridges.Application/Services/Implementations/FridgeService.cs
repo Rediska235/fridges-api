@@ -1,11 +1,11 @@
 ﻿using Fridges.API.DTOs;
 using Fridges.Application.DTOs;
-using Fridges.Application.Interfaces.Repositories;
-using Fridges.Application.Interfaces.Services;
+using Fridges.Application.Repositories;
+using Fridges.Application.Services.Services;
 using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
 
-namespace Fridges.Application.Implementations;
+namespace Fridges.Application.Services.Implementations;
 
 public class FridgeService : IFridgeService
 {
@@ -14,9 +14,9 @@ public class FridgeService : IFridgeService
     private readonly IFridgeModelRepository _fridgeModelRepository;
     private readonly IFridgeProductRepository _fridgeProductRepository;
 
-    public FridgeService(IFridgeRepository repository, 
-        IFridgeModelRepository fridgeModelRepository, 
-        IProductRepository productRepository, 
+    public FridgeService(IFridgeRepository repository,
+        IFridgeModelRepository fridgeModelRepository,
+        IProductRepository productRepository,
         IFridgeProductRepository fridgeProductRepository)
     {
         _repository = repository;

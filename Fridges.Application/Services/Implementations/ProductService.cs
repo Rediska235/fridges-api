@@ -1,10 +1,10 @@
 ﻿using Fridges.API.DTOs;
 using Fridges.Application.DTOs;
-using Fridges.Application.Interfaces.Repositories;
-using Fridges.Application.Interfaces.Services;
+using Fridges.Application.Repositories;
+using Fridges.Application.Services.Services;
 using Fridges.Domain.Entities;
 
-namespace Fridges.Application.Implementations;
+namespace Fridges.Application.Services.Implementations;
 
 public class ProductService : IProductService
 {

@@ -1,6 +1,6 @@
 ﻿using Fridges.API.DTOs;
 using Fridges.Application.DTOs;
-using Fridges.Application.Interfaces.Services;
+using Fridges.Application.Services.Services;
 using Fridges.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 

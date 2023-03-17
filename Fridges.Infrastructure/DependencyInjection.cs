@@ -1,4 +1,4 @@
-﻿using Fridges.Application.Interfaces.Repositories;
+﻿using Fridges.Application.Repositories;
 using Fridges.Infrastructure.Data;
 using Fridges.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;

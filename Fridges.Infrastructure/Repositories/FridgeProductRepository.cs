@@ -1,5 +1,5 @@
 ﻿using Fridges.Application.DTOs;
-using Fridges.Application.Interfaces.Repositories;
+using Fridges.Application.Repositories;
 using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
 using Fridges.Infrastructure.Data;
