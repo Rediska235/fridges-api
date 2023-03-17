@@ -62,7 +62,7 @@ public class FridgeService : IFridgeService
         _fridgeProductRepository.RemoveProducts(removeProductsDto);
     }
 
-    public Fridge CreateFridge(FridgeCreateDto Fridge)
+    public Fridge CreateFridge(CreateFridgeDto Fridge)
     {
         var fridge = new Fridge()
         {

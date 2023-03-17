@@ -2,7 +2,7 @@
 
 namespace Fridges.API.DTOs;
 
-public class ProductCreateDto
+public class CreateProductDto
 {
     [MaxLength(30)]
     public string Name { get; set; }

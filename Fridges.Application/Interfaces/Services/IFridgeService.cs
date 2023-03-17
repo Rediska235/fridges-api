@@ -12,7 +12,7 @@ public interface IFridgeService
     IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid FridgeId);
     void AddProducts(AddProductsDto addProductsDto);
     void RemoveProducts(Guid FridgeId, Guid ProductId);
-    Fridge CreateFridge(FridgeCreateDto Fridge);
+    Fridge CreateFridge(CreateFridgeDto Fridge);
     void UpdateFridge(UpdateFridgeDto updateFridgeDto);
     void DeleteFridge(Guid FridgeID);
 }

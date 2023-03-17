@@ -58,7 +58,7 @@ public class FridgeController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateFridge(FridgeCreateDto Fridge)
+    public IActionResult CreateFridge(CreateFridgeDto Fridge)
     {
         var fridge = _service.CreateFridge(Fridge);
         return Created($"/api/fridges/{fridge.Id}", fridge);

@@ -30,7 +30,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateProduct(ProductCreateDto Product)
+    public IActionResult CreateProduct(CreateProductDto Product)
     {
         var product = _service.CreateProduct(Product);
         return Created($"/api/products/{product.Id}", product);

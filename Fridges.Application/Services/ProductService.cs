@@ -25,7 +25,7 @@ public class ProductService : IProductService
         return _repository.GetProductById(ProductId);
     }
 
-    public Product CreateProduct(ProductCreateDto Product)
+    public Product CreateProduct(CreateProductDto Product)
     {
         var product = new Product()
         {

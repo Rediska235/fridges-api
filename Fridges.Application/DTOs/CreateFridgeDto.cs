@@ -2,7 +2,7 @@
 
 namespace Fridges.API.DTOs;
 
-public class FridgeCreateDto
+public class CreateFridgeDto
 {
 
     [MaxLength(50)]
