@@ -23,7 +23,9 @@ public class FridgeRepository : IFridgeRepository
 
     public Fridge GetFridgeById(Guid FridgeId)
     {
-        return _db.Fridges.FirstOrDefault(p => p.Id == FridgeId);
+        return _db.Fridges
+            .Include(f => f.FridgeModel)
+            .FirstOrDefault(p => p.Id == FridgeId);
     }
 
     public void InsertFridge(Fridge Fridge)
