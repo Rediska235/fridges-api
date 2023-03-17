@@ -12,12 +12,17 @@ public class FridgeService : IFridgeService
     private readonly IFridgeRepository _repository;
     private readonly IProductRepository _productRepository;
     private readonly IFridgeModelRepository _fridgeModelRepository;
+    private readonly IFridgeProductRepository _fridgeProductRepository;
 
-    public FridgeService(IFridgeRepository repository, IFridgeModelRepository fridgeModelRepository, IProductRepository productRepository)
+    public FridgeService(IFridgeRepository repository, 
+        IFridgeModelRepository fridgeModelRepository, 
+        IProductRepository productRepository, 
+        IFridgeProductRepository fridgeProductRepository)
     {
         _repository = repository;
         _fridgeModelRepository = fridgeModelRepository;
         _productRepository = productRepository;
+        _fridgeProductRepository = fridgeProductRepository;
     }
 
     public IEnumerable<Fridge> GetAllFridges()
@@ -28,6 +33,33 @@ public class FridgeService : IFridgeService
     public Fridge GetFridgeById(Guid FridgeId)
     {
         return _repository.GetFridgeById(FridgeId);
+    }
+
+    public IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid FridgeId)
+    {
+        return _fridgeProductRepository.GetProductsByFridgeId(FridgeId);
+    }
+
+    public void AddProducts(AddProductsDto addProductsDto)
+    {
+        FridgeProduct fridgeProduct = new()
+        {
+            Fridge = _repository.GetFridgeById(addProductsDto.FridgeId),
+            Product = _productRepository.GetProductById(addProductsDto.ProductId),
+            Quantity = addProductsDto.Quantity
+        };
+        _fridgeProductRepository.AddProducts(fridgeProduct);
+    }
+
+    public void RemoveProducts(Guid FridgeId, Guid ProductId)
+    {
+        RemoveProductsDto removeProductsDto = new()
+        {
+            FridgeId = FridgeId,
+            ProductId = ProductId
+        };
+
+        _fridgeProductRepository.RemoveProducts(removeProductsDto);
     }
 
     public Fridge CreateFridge(FridgeCreateDto Fridge)
@@ -44,28 +76,6 @@ public class FridgeService : IFridgeService
         return fridge;
     }
 
-    public void AddProducts(AddProductsDto addProductsDto)
-    {
-        FridgeProduct fridgeProduct = new()
-        {
-            Fridge = _repository.GetFridgeById(addProductsDto.FridgeId),
-            Product = _productRepository.GetProductById(addProductsDto.ProductId),
-            Quantity = addProductsDto.Quantity
-        };
-        _repository.AddProducts(fridgeProduct);
-    }
-    
-    public void RemoveProducts(Guid FridgeId, Guid ProductId)
-    {
-        RemoveProductsDto removeProductsDto = new()
-        {
-            FridgeId = FridgeId,
-            ProductId = ProductId
-        };
-
-        _repository.RemoveProducts(removeProductsDto);
-    }
-
     public void UpdateFridge(Fridge Fridge)
     {
         _repository.UpdateFridge(Fridge);
@@ -74,10 +84,5 @@ public class FridgeService : IFridgeService
     public void DeleteFridge(Guid FridgeId)
     {
         _repository.DeleteFridge(FridgeId);
-    }
-
-    public IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid FridgeId)
-    {
-        return _repository.GetProductsByFridgeId(FridgeId);
     }
 }
