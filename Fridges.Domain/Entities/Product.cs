@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Fridges.Domain.Entities;
 
@@ -12,5 +13,6 @@ public class Product
 
     public int? DefaultQuantity { get; set; }
 
+    [JsonIgnore]
     public List<FridgeProduct> FridgeProducts { get; set; }
 }
