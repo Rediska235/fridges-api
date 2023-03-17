@@ -1,5 +1,4 @@
-﻿using Fridges.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Fridges.API.DTOs;
 
@@ -12,5 +11,5 @@ public class FridgeCreateDto
     [MaxLength(30)]
     public string? OwnerName { get; set; }
 
-    public FridgeModel FridgeModel { get; set; }
+    public Guid FridgeModelId { get; set; }
 }
