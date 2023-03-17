@@ -28,13 +28,13 @@ public class FridgeController : ControllerBase
     {
         var fridge = _service.GetFridgeById(id);
         var products = _service.GetProductsByFridgeId(id);
-        var result = new FridgeWithProductsDto
+        var fridgeWithProducts = new FridgeWithProductsDto
         {
             Fridge = fridge,
             Products = products
         };
 
-        return Ok(result);
+        return Ok(fridgeWithProducts);
     }
 
     [HttpPost("{fridgeId}/products")]
