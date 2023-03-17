@@ -1,5 +1,6 @@
 ﻿using Fridges.Application.Interfaces.Repositories;
 using Fridges.Domain.Entities;
+using Fridges.Domain.Exceptions;
 using Fridges.Infrastructure.Data;
 
 namespace Fridges.Infrastructure.Repositories;
@@ -20,26 +21,29 @@ public class ProductRepository : IProductRepository
 
     public Product GetProductById(Guid ProductId)
     {
-        return _db.Products.FirstOrDefault(p => p.Id == ProductId);
+        var product = _db.Products.FirstOrDefault(p => p.Id == ProductId);
+        if(product == null)
+        {
+            throw Exceptions.productNotFound;
+        }
+
+        return product;
     }
 
     public void InsertProduct(Product Product)
     {
         _db.Add(Product);
-        Save();
     }
 
     public void UpdateProduct(Product Product)
     {
         _db.Update(Product);
-        Save();
     }
 
     public void DeleteProduct(Guid ProductId)
     {
         var product = GetProductById(ProductId);
         _db.Remove(product);
-        Save();
     }
 
     public void Save()

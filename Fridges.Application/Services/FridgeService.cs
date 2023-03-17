@@ -48,7 +48,9 @@ public class FridgeService : IFridgeService
             Product = _productRepository.GetProductById(addProductsDto.ProductId),
             Quantity = addProductsDto.Quanity
         };
+
         _fridgeProductRepository.AddProducts(fridgeProduct);
+        _repository.Save();
     }
 
     public void RemoveProducts(Guid FridgeId, Guid ProductId)
@@ -60,6 +62,7 @@ public class FridgeService : IFridgeService
         };
 
         _fridgeProductRepository.RemoveProducts(removeProductsDto);
+        _repository.Save();
     }
 
     public Fridge CreateFridge(CreateFridgeDto Fridge)
@@ -72,6 +75,7 @@ public class FridgeService : IFridgeService
             FridgeModel = _fridgeModelRepository.GetFridgeModelById(Fridge.FridgeModelId)
         };
         _repository.InsertFridge(fridge);
+        _repository.Save();
 
         return fridge;
     }
@@ -88,6 +92,7 @@ public class FridgeService : IFridgeService
         };
 
         _repository.UpdateFridge(fridge);
+        _repository.Save();
 
         return _repository.GetFridgeById(fridge.Id);
     }
@@ -95,5 +100,6 @@ public class FridgeService : IFridgeService
     public void DeleteFridge(Guid FridgeId)
     {
         _repository.DeleteFridge(FridgeId);
+        _repository.Save();
     }
 }

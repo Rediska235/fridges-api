@@ -1,7 +1,7 @@
 ﻿using Fridges.Application.DTOs;
 using Fridges.Application.Interfaces.Repositories;
-using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
+using Fridges.Domain.Exceptions;
 using Fridges.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,28 +23,32 @@ public class FridgeRepository : IFridgeRepository
 
     public Fridge GetFridgeById(Guid FridgeId)
     {
-        return _db.Fridges
+        var fridge = _db.Fridges
             .Include(f => f.FridgeModel)
             .FirstOrDefault(p => p.Id == FridgeId);
+
+        if (fridge == null)
+        {
+            throw Exceptions.fridgeNotFound;
+        }
+
+        return fridge;
     }
 
     public void InsertFridge(Fridge Fridge)
     {
         _db.Add(Fridge);
-        Save();
     }
 
     public void UpdateFridge(Fridge Fridge)
     {
         _db.Update(Fridge);
-        Save();
     }
 
     public void DeleteFridge(Guid FridgeId)
     {
         var fridge = GetFridgeById(FridgeId);
         _db.Remove(fridge);
-        Save();
     }
 
     public void Save()

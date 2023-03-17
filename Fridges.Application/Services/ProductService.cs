@@ -35,6 +35,7 @@ public class ProductService : IProductService
         };
 
         _repository.InsertProduct(product);
+        _repository.Save();
 
         return product;
     }
@@ -50,6 +51,7 @@ public class ProductService : IProductService
         };
 
         _repository.UpdateProduct(product);
+        _repository.Save();
 
         return _repository.GetProductById(product.Id);
     }
@@ -57,5 +59,6 @@ public class ProductService : IProductService
     public void DeleteProduct(Guid ProductId)
     {
         _repository.DeleteProduct(ProductId);
+        _repository.Save();
     }
 }
