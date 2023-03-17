@@ -39,14 +39,14 @@ public class ProductController : ControllerBase
     [HttpPut]
     public IActionResult UpdateProduct(UpdateProductDto updateProductDto)
     {
-        _service.UpdateProduct(updateProductDto);
-        return Ok();
+        var product = _service.UpdateProduct(updateProductDto);
+        return Ok(product);
     }
 
     [HttpDelete("{id}")]
     public IActionResult DeleteProduct(Guid id)
     {
         _service.DeleteProduct(id);
-        return Ok();
+        return NoContent();
     }
 }

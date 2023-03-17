@@ -9,6 +9,6 @@ public interface IProductService
     IEnumerable<Product> GetAllProducts();
     Product GetProductById(Guid ProductId);
     Product CreateProduct(CreateProductDto Product);
-    void UpdateProduct(UpdateProductDto updateProductDto);
+    Product UpdateProduct(UpdateProductDto updateProductDto);
     void DeleteProduct(Guid ProductID);
 }

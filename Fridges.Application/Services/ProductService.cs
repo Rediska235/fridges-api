@@ -39,7 +39,7 @@ public class ProductService : IProductService
         return product;
     }
 
-    public void UpdateProduct(UpdateProductDto updateProductDto)
+    public Product UpdateProduct(UpdateProductDto updateProductDto)
     {
         var product = new Product()
         {
@@ -50,6 +50,8 @@ public class ProductService : IProductService
         };
 
         _repository.UpdateProduct(product);
+
+        return _repository.GetProductById(product.Id);
     }
 
     public void DeleteProduct(Guid ProductId)

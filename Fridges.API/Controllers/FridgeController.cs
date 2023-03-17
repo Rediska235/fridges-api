@@ -60,14 +60,14 @@ public class FridgeController : ControllerBase
     [HttpPut]
     public IActionResult UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
-        _service.UpdateFridge(updateFridgeDto);
-        return Ok();
+        var fridge = _service.UpdateFridge(updateFridgeDto);
+        return Ok(fridge);
     }
 
     [HttpDelete("{id}")]
     public IActionResult DeleteFridge(Guid id)
     {
         _service.DeleteFridge(id);
-        return Ok();
+        return NoContent();
     }
 }

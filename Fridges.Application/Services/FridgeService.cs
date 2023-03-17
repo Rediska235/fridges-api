@@ -76,7 +76,7 @@ public class FridgeService : IFridgeService
         return fridge;
     }
 
-    public void UpdateFridge(UpdateFridgeDto updateFridgeDto)
+    public Fridge UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
         var fridge = new Fridge()
         {
@@ -88,6 +88,8 @@ public class FridgeService : IFridgeService
         };
 
         _repository.UpdateFridge(fridge);
+
+        return _repository.GetFridgeById(fridge.Id);
     }
 
     public void DeleteFridge(Guid FridgeId)
