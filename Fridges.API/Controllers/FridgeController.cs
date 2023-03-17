@@ -22,7 +22,7 @@ public class FridgeController : ControllerBase
         return Ok(_service.GetAllFridges());
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public IActionResult GetProductsByFridgeId(Guid id)
     {
         var fridge = _service.GetFridgeById(id);
@@ -36,14 +36,14 @@ public class FridgeController : ControllerBase
         return Ok(fridgeWithProducts);
     }
 
-    [HttpPost("{fridgeId}/products")]
+    [HttpPost("{fridgeId:guid}/products")]
     public IActionResult AddProducts(Guid fridgeId, AddProductsDto addProductsDto)
     {
         _service.AddProducts(fridgeId, addProductsDto);
         return Ok();
     }
 
-    [HttpDelete("{fridgeId}/products/{productId}")]
+    [HttpDelete("{fridgeId:guid}/products/{productId:guid}")]
     public IActionResult RemoveProducts(Guid fridgeId, Guid productId)
     {
         _service.RemoveProducts(fridgeId, productId);
@@ -64,7 +64,7 @@ public class FridgeController : ControllerBase
         return Ok(fridge);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public IActionResult DeleteFridge(Guid id)
     {
         _service.DeleteFridge(id);

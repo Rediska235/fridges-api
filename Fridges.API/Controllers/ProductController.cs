@@ -1,7 +1,6 @@
 ﻿using Fridges.API.DTOs;
 using Fridges.Application.DTOs;
 using Fridges.Application.Services.Services;
-using Fridges.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fridges.API.Controllers;
@@ -13,7 +12,7 @@ public class ProductController : ControllerBase
     private readonly IProductService _service;
 
     public ProductController(IProductService service)
-    {
+    { 
         _service = service;
     }
 
@@ -23,7 +22,7 @@ public class ProductController : ControllerBase
         return Ok(_service.GetAllProducts());
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public IActionResult GetProductById(Guid id)
     {
         return Ok(_service.GetProductById(id));
@@ -43,7 +42,7 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public IActionResult DeleteProduct(Guid id)
     {
         _service.DeleteProduct(id);
