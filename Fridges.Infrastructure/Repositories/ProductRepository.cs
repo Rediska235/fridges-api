@@ -19,9 +19,9 @@ public class ProductRepository : IProductRepository
         return _db.Products;
     }
 
-    public Product GetProductById(Guid ProductId)
+    public Product GetProductById(Guid productId)
     {
-        var product = _db.Products.FirstOrDefault(p => p.Id == ProductId);
+        var product = _db.Products.FirstOrDefault(p => p.Id == productId);
         if (product == null)
         {
             throw Exceptions.productNotFound;
@@ -30,9 +30,9 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public Product GetProductByName(string Name)
+    public Product GetProductByName(string name)
     {
-        var product = _db.Products.FirstOrDefault(p => p.Name == Name);
+        var product = _db.Products.FirstOrDefault(p => p.Name == name);
         if (product == null)
         {
             throw Exceptions.productNotFound;
@@ -41,19 +41,19 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public void InsertProduct(Product Product)
+    public void InsertProduct(Product product)
     {
-        _db.Add(Product);
+        _db.Add(product);
+    }
+    
+    public void UpdateProduct(Product product)
+    {
+        _db.Update(product);
     }
 
-    public void UpdateProduct(Product Product)
+    public void DeleteProduct(Guid productId)
     {
-        _db.Update(Product);
-    }
-
-    public void DeleteProduct(Guid ProductId)
-    {
-        var product = GetProductById(ProductId);
+        var product = GetProductById(productId);
         _db.Remove(product);
     }
 

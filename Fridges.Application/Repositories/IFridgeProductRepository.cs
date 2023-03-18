@@ -6,7 +6,7 @@ namespace Fridges.Application.Repositories;
 
 public interface IFridgeProductRepository
 {
-    IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid FridgeId);
+    IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid fridgeId);
     void AddProducts(FridgeProduct fridgeProduct);
     void RemoveProducts(RemoveProductsDto removeProductsDto);
     void Save();

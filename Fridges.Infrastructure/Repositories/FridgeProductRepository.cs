@@ -16,11 +16,11 @@ public class FridgeProductRepository : IFridgeProductRepository
         _db = db;
     }
 
-    public IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid FridgeId)
+    public IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid fridgeId)
     {
         return _db.FridgeProducts
             .Include(fp => fp.Fridge)
-            .Where(fp => fp.Fridge.Id == FridgeId)
+            .Where(fp => fp.Fridge.Id == fridgeId)
             .Select(fp => new ProductQuantity
             {
                 Product = fp.Product,

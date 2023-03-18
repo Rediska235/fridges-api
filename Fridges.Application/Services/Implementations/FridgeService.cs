@@ -31,14 +31,14 @@ public class FridgeService : IFridgeService
         return _repository.GetFridges();
     }
 
-    public Fridge GetFridgeById(Guid FridgeId)
+    public Fridge GetFridgeById(Guid fridgeId)
     {
-        return _repository.GetFridgeById(FridgeId);
+        return _repository.GetFridgeById(fridgeId);
     }
 
-    public IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid FridgeId)
+    public IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid fridgeId)
     {
-        return _fridgeProductRepository.GetProductsByFridgeId(FridgeId);
+        return _fridgeProductRepository.GetProductsByFridgeId(fridgeId);
     }
 
     public void AddProducts(Guid fridgeId, AddProductsDto addProductsDto)
@@ -54,22 +54,24 @@ public class FridgeService : IFridgeService
         _repository.Save();
     }
 
-    public void RemoveProducts(Guid FridgeId, Guid ProductId)
+    public void RemoveProducts(Guid fridgeId, Guid productId)
     {
         RemoveProductsDto removeProductsDto = new()
         {
-            FridgeId = FridgeId,
-            ProductId = ProductId
+            FridgeId = fridgeId,
+            ProductId = productId
         };
 
         _fridgeProductRepository.RemoveProducts(removeProductsDto);
         _repository.Save();
     }
 
-    public Fridge CreateFridge(CreateFridgeDto Fridge)
+    public Fridge CreateFridge(CreateFridgeDto createFridgeDto)
     {
-        Fridge.Name = Fridge.Name.Trim();
-        if (AlreadyExists(Fridge.Name))
+        var fridgeName = createFridgeDto.Name.Trim();
+        var ownerName = createFridgeDto.OwnerName?.Trim();
+        
+        if (AlreadyExists(fridgeName))
         {
             throw Exceptions.fridgeAlreadyExists;
         }
@@ -77,9 +79,9 @@ public class FridgeService : IFridgeService
         var fridge = new Fridge()
         {
             Id = new Guid(),
-            Name = Fridge.Name,
-            OwnerName = Fridge.OwnerName,
-            FridgeModel = _fridgeModelRepository.GetFridgeModelById(Fridge.FridgeModelId)
+            Name = fridgeName,
+            OwnerName = ownerName,
+            FridgeModel = _fridgeModelRepository.GetFridgeModelById(createFridgeDto.FridgeModelId)
         };
         _repository.InsertFridge(fridge);
         _repository.Save();
@@ -89,11 +91,14 @@ public class FridgeService : IFridgeService
 
     public Fridge UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
+        var fridgeName = updateFridgeDto.Name.Trim();
+        var ownerName = updateFridgeDto.OwnerName?.Trim();
+        
         var fridge = new Fridge()
         {
             Id = updateFridgeDto.Id,
-            Name = updateFridgeDto.Name,
-            OwnerName = updateFridgeDto.OwnerName,
+            Name = fridgeName,
+            OwnerName = ownerName,
             FridgeModel = _fridgeModelRepository.GetFridgeModelById(updateFridgeDto.FridgeModelId),
             FridgeProducts = null
         };
@@ -101,12 +106,12 @@ public class FridgeService : IFridgeService
         _repository.UpdateFridge(fridge);
         _repository.Save();
 
-        return _repository.GetFridgeById(fridge.Id);
+        return fridge;
     }
 
-    public void DeleteFridge(Guid FridgeId)
+    public void DeleteFridge(Guid fridgeId)
     {
-        _repository.DeleteFridge(FridgeId);
+        _repository.DeleteFridge(fridgeId);
         _repository.Save();
     }
     

@@ -20,11 +20,11 @@ public class FridgeRepository : IFridgeRepository
         return _db.Fridges.Include(f => f.FridgeModel);
     }
 
-    public Fridge GetFridgeById(Guid FridgeId)
+    public Fridge GetFridgeById(Guid fridgeId)
     {
         var fridge = _db.Fridges
             .Include(f => f.FridgeModel)
-            .FirstOrDefault(f => f.Id == FridgeId);
+            .FirstOrDefault(f => f.Id == fridgeId);
 
         if (fridge == null)
         {
@@ -34,9 +34,9 @@ public class FridgeRepository : IFridgeRepository
         return fridge;
     }
 
-    public Fridge GetFridgeByName(string Name)
+    public Fridge GetFridgeByName(string name)
     {
-        var fridge = _db.Fridges.FirstOrDefault(f => f.Name == Name);
+        var fridge = _db.Fridges.FirstOrDefault(f => f.Name == name);
 
         if (fridge == null)
         {
@@ -46,19 +46,19 @@ public class FridgeRepository : IFridgeRepository
         return fridge;
     }
 
-    public void InsertFridge(Fridge Fridge)
+    public void InsertFridge(Fridge fridge)
     {
-        _db.Add(Fridge);
+        _db.Add(fridge);
     }
 
-    public void UpdateFridge(Fridge Fridge)
+    public void UpdateFridge(Fridge fridge)
     {
-        _db.Update(Fridge);
+        _db.Update(fridge);
     }
 
-    public void DeleteFridge(Guid FridgeId)
+    public void DeleteFridge(Guid fridgeId)
     {
-        var fridge = GetFridgeById(FridgeId);
+        var fridge = GetFridgeById(fridgeId);
         _db.Remove(fridge);
     }
 

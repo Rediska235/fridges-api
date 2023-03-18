@@ -4,5 +4,5 @@ namespace Fridges.Application.Repositories;
 
 public interface IFridgeModelRepository
 {
-    FridgeModel GetFridgeModelById(Guid Id);
+    FridgeModel GetFridgeModelById(Guid id);
 }

@@ -21,15 +21,16 @@ public class ProductService : IProductService
         return _repository.GetProducts();
     }
 
-    public Product GetProductById(Guid ProductId)
+    public Product GetProductById(Guid productId)
     {
-        return _repository.GetProductById(ProductId);
+        return _repository.GetProductById(productId);
     }
 
-    public Product CreateProduct(CreateProductDto Product)
+    public Product CreateProduct(CreateProductDto createProductDto)
     {
-        Product.Name = Product.Name.Trim();
-        if(AlreadyExists(Product.Name))
+        var productName = createProductDto.Name.Trim();
+        
+        if(AlreadyExists(productName))
         {
             throw Exceptions.productAlreadyExists;
         }
@@ -37,8 +38,8 @@ public class ProductService : IProductService
         var product = new Product()
         {
             Id = new Guid(),
-            Name = Product.Name,
-            DefaultQuantity = Product.DefaultQuantity
+            Name = productName,
+            DefaultQuantity = createProductDto.DefaultQuantity
         };
 
         _repository.InsertProduct(product);
@@ -49,10 +50,12 @@ public class ProductService : IProductService
 
     public Product UpdateProduct(UpdateProductDto updateProductDto)
     {
+        var productName = updateProductDto.Name.Trim();
+
         var product = new Product()
         {
             Id = updateProductDto.Id,
-            Name = updateProductDto.Name,
+            Name = productName,
             DefaultQuantity = updateProductDto.DefaultQuantity,
             FridgeProducts = null
         };
@@ -60,12 +63,12 @@ public class ProductService : IProductService
         _repository.UpdateProduct(product);
         _repository.Save();
 
-        return _repository.GetProductById(product.Id);
+        return product;
     }
 
-    public void DeleteProduct(Guid ProductId)
+    public void DeleteProduct(Guid productId)
     {
-        _repository.DeleteProduct(ProductId);
+        _repository.DeleteProduct(productId);
         _repository.Save();
     }
 

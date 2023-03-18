@@ -7,8 +7,8 @@ namespace Fridges.Application.Services.Services;
 public interface IProductService
 {
     IEnumerable<Product> GetAllProducts();
-    Product GetProductById(Guid ProductId);
-    Product CreateProduct(CreateProductDto Product);
+    Product GetProductById(Guid productId);
+    Product CreateProduct(CreateProductDto product);
     Product UpdateProduct(UpdateProductDto updateProductDto);
-    void DeleteProduct(Guid ProductID);
+    void DeleteProduct(Guid productID);
 }

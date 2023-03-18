@@ -8,11 +8,11 @@ namespace Fridges.Application.Services.Services;
 public interface IFridgeService
 {
     IEnumerable<Fridge> GetAllFridges();
-    Fridge GetFridgeById(Guid FridgeId);
-    IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid FridgeId);
+    Fridge GetFridgeById(Guid fridgeId);
+    IEnumerable<ProductQuantity> GetProductsByFridgeId(Guid fridgeId);
     void AddProducts(Guid fridgeId, AddProductsDto addProductsDto);
-    void RemoveProducts(Guid FridgeId, Guid ProductId);
-    Fridge CreateFridge(CreateFridgeDto Fridge);
+    void RemoveProducts(Guid fridgeId, Guid productId);
+    Fridge CreateFridge(CreateFridgeDto fridge);
     Fridge UpdateFridge(UpdateFridgeDto updateFridgeDto);
-    void DeleteFridge(Guid FridgeID);
+    void DeleteFridge(Guid fridgeID);
 }

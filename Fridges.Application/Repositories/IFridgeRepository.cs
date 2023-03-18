@@ -5,10 +5,10 @@ namespace Fridges.Application.Repositories;
 public interface IFridgeRepository
 {
     IEnumerable<Fridge> GetFridges();
-    Fridge GetFridgeById(Guid FridgeId);
-    Fridge GetFridgeByName(string Name);
-    void InsertFridge(Fridge Fridge);
-    void UpdateFridge(Fridge Fridge);
-    void DeleteFridge(Guid FridgeId);
+    Fridge GetFridgeById(Guid fridgeId);
+    Fridge GetFridgeByName(string fridgeName);
+    void InsertFridge(Fridge fridge);
+    void UpdateFridge(Fridge fridge);
+    void DeleteFridge(Guid fridgeId);
     void Save();
 }

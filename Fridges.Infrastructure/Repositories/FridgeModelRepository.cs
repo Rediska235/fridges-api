@@ -13,8 +13,8 @@ public class FridgeModelRepository : IFridgeModelRepository
         _db = db;
     }
 
-    public FridgeModel GetFridgeModelById(Guid Id)
+    public FridgeModel GetFridgeModelById(Guid id)
     {
-        return _db.FridgeModels.FirstOrDefault(fm => fm.Id == Id);
+        return _db.FridgeModels.FirstOrDefault(fm => fm.Id == id);
     }
 }
