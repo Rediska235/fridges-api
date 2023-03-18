@@ -1,7 +1,7 @@
 ﻿using Fridges.API.DTOs;
 using Fridges.Application.DTOs;
 using Fridges.Application.Repositories;
-using Fridges.Application.Services.Services;
+using Fridges.Application.Services.Interfaces;
 using Fridges.Domain.Entities;
 using Fridges.Domain.Exceptions;
 

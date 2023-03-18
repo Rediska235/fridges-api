@@ -3,7 +3,7 @@ using Fridges.Application.DTOs;
 using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
 
-namespace Fridges.Application.Services.Services;
+namespace Fridges.Application.Services.Interfaces;
 
 public interface IFridgeService
 {
