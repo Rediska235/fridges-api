@@ -7,4 +7,6 @@ public static class Exceptions
 
     public static AlreadyExistsException productAlreadyExists = new("Product with this name already exists.");
     public static AlreadyExistsException fridgeAlreadyExists = new("Fridge with this name already exists.");
+
+    public static NotAllowedException negativeProductQuantity = new("Current fridge does not have this many products.");
 }

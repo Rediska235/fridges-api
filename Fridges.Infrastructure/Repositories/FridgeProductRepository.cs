@@ -51,8 +51,10 @@ public class FridgeProductRepository : IFridgeProductRepository
     public void RemoveFridgeProduct(RemoveProductsDto removeProductsDto)
     {
         var fridgeProduct = GetFridgeProductByIds(removeProductsDto.FridgeId, removeProductsDto.ProductId);
-
-        _db.Remove(fridgeProduct);
+        if(fridgeProduct != null)
+        {
+            _db.Remove(fridgeProduct);
+        }
     }
 
     public List<FridgeProduct> GetProductsWithZeroQuantity()

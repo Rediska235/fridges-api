@@ -49,6 +49,11 @@ public class FridgeService : IFridgeService
         if (fridgeProductInDb != null)
         {
             fridgeProductInDb.Quantity += addProductsDto.Quanity;
+            if(fridgeProductInDb.Quantity < 0)
+            {
+                throw Exceptions.negativeProductQuantity;
+            }
+
             _fridgeProductRepository.UpdateProductQuantity(fridgeProductInDb);
         }
         else
