@@ -112,7 +112,6 @@ public class FridgeService : IFridgeService
     {
         var fridgeName = createFridgeDto.Name.Trim();
         var ownerName = createFridgeDto.OwnerName?.Trim();
-        
         if (AlreadyExists(fridgeName))
         {
             throw Exceptions.fridgeAlreadyExists;
@@ -133,17 +132,22 @@ public class FridgeService : IFridgeService
 
     public Fridge UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
-        var fridgeName = updateFridgeDto.Name.Trim();
-        var ownerName = updateFridgeDto.OwnerName?.Trim();
-        
-        var fridge = new Fridge()
+        var fridge = _repository.GetFridgeById(updateFridgeDto.Id);
+        if (fridge == null)
         {
-            Id = updateFridgeDto.Id,
-            Name = fridgeName,
-            OwnerName = ownerName,
-            FridgeModel = _fridgeModelRepository.GetFridgeModelById(updateFridgeDto.FridgeModelId),
-            FridgeProducts = null
-        };
+            throw Exceptions.fridgeNotFound;
+        }
+
+        var ownerName = updateFridgeDto.OwnerName?.Trim();
+        var fridgeName = updateFridgeDto.Name.Trim();
+        if (fridgeName != fridge.Name && AlreadyExists(fridgeName))
+        {
+            throw Exceptions.fridgeAlreadyExists;
+        }
+
+        fridge.Name = fridgeName;
+        fridge.OwnerName = ownerName;
+        fridge.FridgeModel = _fridgeModelRepository.GetFridgeModelById(updateFridgeDto.FridgeModelId);
 
         _repository.UpdateFridge(fridge);
         _repository.Save();

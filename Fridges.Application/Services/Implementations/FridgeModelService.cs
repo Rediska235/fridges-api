@@ -28,7 +28,6 @@ public class FridgeModelService : IFridgeModelService
     public FridgeModel CreateFridgeModel(CreateFridgeModelDto createFridgeModelDto)
     {
         var fridgeModelName = createFridgeModelDto.Name.Trim();
-
         if (AlreadyExists(fridgeModelName))
         {
             throw Exceptions.fridgeModelAlreadyExists;
@@ -49,14 +48,20 @@ public class FridgeModelService : IFridgeModelService
 
     public FridgeModel UpdateFridgeModel(UpdateFridgeModelDto updateFridgeModelDto)
     {
-        var fridgeModelName = updateFridgeModelDto.Name.Trim();
-
-        var fridgeModel = new FridgeModel()
+        var fridgeModel = _repository.GetFridgeModelById(updateFridgeModelDto.Id);
+        if (fridgeModel == null)
         {
-            Id = updateFridgeModelDto.Id,
-            Name = fridgeModelName,
-            Year = updateFridgeModelDto.Year
-        };
+            throw Exceptions.fridgeModelNotFound;
+        }
+
+        var fridgeModelName = updateFridgeModelDto.Name.Trim();
+        if (fridgeModelName != fridgeModel.Name && AlreadyExists(fridgeModelName))
+        {
+            throw Exceptions.fridgeModelAlreadyExists;
+        }
+
+        fridgeModel.Name = fridgeModelName;
+        fridgeModel.Year = updateFridgeModelDto.Year;
 
         _repository.UpdateFridgeModel(fridgeModel);
         _repository.Save();

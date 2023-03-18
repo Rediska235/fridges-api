@@ -29,7 +29,6 @@ public class ProductService : IProductService
     public Product CreateProduct(CreateProductDto createProductDto)
     {
         var productName = createProductDto.Name.Trim();
-        
         if(AlreadyExists(productName))
         {
             throw Exceptions.productAlreadyExists;
@@ -50,15 +49,20 @@ public class ProductService : IProductService
 
     public Product UpdateProduct(UpdateProductDto updateProductDto)
     {
-        var productName = updateProductDto.Name.Trim();
-
-        var product = new Product()
+        var product = _repository.GetProductById(updateProductDto.Id);
+        if (product == null)
         {
-            Id = updateProductDto.Id,
-            Name = productName,
-            DefaultQuantity = updateProductDto.DefaultQuantity,
-            FridgeProducts = null
-        };
+            throw Exceptions.productNotFound;
+        }
+
+        var productName = updateProductDto.Name.Trim();
+        if (productName != product.Name && AlreadyExists(productName))
+        {
+            throw Exceptions.productAlreadyExists;
+        }
+
+        product.Name = productName;
+        product.DefaultQuantity = updateProductDto.DefaultQuantity;
 
         _repository.UpdateProduct(product);
         _repository.Save();
