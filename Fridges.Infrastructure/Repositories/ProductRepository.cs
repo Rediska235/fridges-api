@@ -22,7 +22,18 @@ public class ProductRepository : IProductRepository
     public Product GetProductById(Guid ProductId)
     {
         var product = _db.Products.FirstOrDefault(p => p.Id == ProductId);
-        if(product == null)
+        if (product == null)
+        {
+            throw Exceptions.productNotFound;
+        }
+
+        return product;
+    }
+
+    public Product GetProductByName(string Name)
+    {
+        var product = _db.Products.FirstOrDefault(p => p.Name == Name);
+        if (product == null)
         {
             throw Exceptions.productNotFound;
         }

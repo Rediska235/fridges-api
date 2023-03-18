@@ -3,6 +3,7 @@ using Fridges.Application.DTOs;
 using Fridges.Application.Repositories;
 using Fridges.Application.Services.Services;
 using Fridges.Domain.Entities;
+using Fridges.Domain.Exceptions;
 
 namespace Fridges.Application.Services.Implementations;
 
@@ -21,12 +22,18 @@ public class ProductService : IProductService
     }
 
     public Product GetProductById(Guid ProductId)
-    { 
+    {
         return _repository.GetProductById(ProductId);
     }
 
     public Product CreateProduct(CreateProductDto Product)
     {
+        Product.Name = Product.Name.Trim();
+        if(AlreadyExists(Product.Name))
+        {
+            throw Exceptions.productAlreadyExists;
+        }
+
         var product = new Product()
         {
             Id = new Guid(),
@@ -60,5 +67,19 @@ public class ProductService : IProductService
     {
         _repository.DeleteProduct(ProductId);
         _repository.Save();
+    }
+
+    private bool AlreadyExists(string name)
+    {
+        try
+        {
+            _repository.GetProductByName(name);
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

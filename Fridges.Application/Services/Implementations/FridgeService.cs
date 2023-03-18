@@ -4,6 +4,7 @@ using Fridges.Application.Repositories;
 using Fridges.Application.Services.Services;
 using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
+using Fridges.Domain.Exceptions;
 
 namespace Fridges.Application.Services.Implementations;
 
@@ -67,6 +68,12 @@ public class FridgeService : IFridgeService
 
     public Fridge CreateFridge(CreateFridgeDto Fridge)
     {
+        Fridge.Name = Fridge.Name.Trim();
+        if (AlreadyExists(Fridge.Name))
+        {
+            throw Exceptions.fridgeAlreadyExists;
+        }
+
         var fridge = new Fridge()
         {
             Id = new Guid(),
@@ -101,5 +108,19 @@ public class FridgeService : IFridgeService
     {
         _repository.DeleteFridge(FridgeId);
         _repository.Save();
+    }
+    
+    private bool AlreadyExists(string name)
+    {
+        try
+        {
+            _repository.GetFridgeByName(name);
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

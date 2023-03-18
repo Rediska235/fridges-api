@@ -1,3 +1,4 @@
+using Fridges.API.Middlewares;
 using Fridges.Application;
 using Fridges.Infrastructure;
 
@@ -21,10 +22,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+//app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

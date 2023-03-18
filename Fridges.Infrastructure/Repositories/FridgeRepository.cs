@@ -1,5 +1,4 @@
-﻿using Fridges.Application.DTOs;
-using Fridges.Application.Repositories;
+﻿using Fridges.Application.Repositories;
 using Fridges.Domain.Entities;
 using Fridges.Domain.Exceptions;
 using Fridges.Infrastructure.Data;
@@ -25,7 +24,19 @@ public class FridgeRepository : IFridgeRepository
     {
         var fridge = _db.Fridges
             .Include(f => f.FridgeModel)
-            .FirstOrDefault(p => p.Id == FridgeId);
+            .FirstOrDefault(f => f.Id == FridgeId);
+
+        if (fridge == null)
+        {
+            throw Exceptions.fridgeNotFound;
+        }
+
+        return fridge;
+    }
+
+    public Fridge GetFridgeByName(string Name)
+    {
+        var fridge = _db.Fridges.FirstOrDefault(f => f.Name == Name);
 
         if (fridge == null)
         {
