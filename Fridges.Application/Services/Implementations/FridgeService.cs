@@ -45,34 +45,44 @@ public class FridgeService : IFridgeService
 
     public void AddProducts(Guid fridgeId, AddProductsDto addProductsDto)
     {
-        FridgeProduct fridgeProduct = new()
+        var fridgeProductInDb = _fridgeProductRepository.GetFridgeProductByIds(fridgeId, addProductsDto.ProductId);
+        if (fridgeProductInDb != null)
         {
-            Fridge = _repository.GetFridgeById(fridgeId),
-            Product = _productRepository.GetProductById(addProductsDto.ProductId),
-            Quantity = addProductsDto.Quanity
-        };
+            fridgeProductInDb.Quantity += addProductsDto.Quanity;
+            _fridgeProductRepository.UpdateProductQuantity(fridgeProductInDb);
+        }
+        else
+        {
+            var fridgeProduct = new FridgeProduct()
+            {
+                Id = new Guid(),
+                Fridge = _repository.GetFridgeById(fridgeId),
+                Product = _productRepository.GetProductById(addProductsDto.ProductId),
+                Quantity = addProductsDto.Quanity
+            };
 
-        _fridgeProductRepository.AddProducts(fridgeProduct);
-        _repository.Save();
+            _fridgeProductRepository.AddFridgeProduct(fridgeProduct);
+        }
+
+        _fridgeProductRepository.Save();
     }
 
     public void RemoveProducts(Guid fridgeId, Guid productId)
     {
-        RemoveProductsDto removeProductsDto = new()
+        var removeProductsDto = new RemoveProductsDto()
         {
             FridgeId = fridgeId,
             ProductId = productId
         };
 
-        _fridgeProductRepository.RemoveProducts(removeProductsDto);
-        _repository.Save();
+        _fridgeProductRepository.RemoveFridgeProduct(removeProductsDto);
+        _fridgeProductRepository.Save();
     }
     
     public void UpdateProductsQuantity()
     {
-        List<FridgeProduct> fridgeProducts = _fridgeProductRepository.GetProductsWithZeroQuantity();
+        var fridgeProducts = _fridgeProductRepository.GetProductsWithZeroQuantity();
 
-        //пока он добавляет записи в таблицу FridgeProducts а не изменяет количество
         foreach(var fridgeProduct in fridgeProducts)
         {
             using var httpClient = new HttpClient();

@@ -4,7 +4,6 @@ using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
 using Fridges.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Fridges.Infrastructure.Repositories;
 
@@ -29,20 +28,31 @@ public class FridgeProductRepository : IFridgeProductRepository
             });
     }
 
-    public void AddProducts(FridgeProduct fridgeProduct)
-    {
-        _db.Add(fridgeProduct);
-        Save();
-    }
-
-    public void RemoveProducts(RemoveProductsDto removeProductsDto)
+    public FridgeProduct GetFridgeProductByIds(Guid fridgeId, Guid productId)
     {
         var fridgeProduct = _db.FridgeProducts
-            .FirstOrDefault(fp => fp.Product.Id == removeProductsDto.ProductId
-                               && fp.Fridge.Id == removeProductsDto.FridgeId);
+            .Include(fp => fp.Fridge)
+            .Include(fp => fp.Product)
+            .FirstOrDefault(fp => fp.Fridge.Id == fridgeId && fp.Product.Id == productId);
 
-        _db.FridgeProducts.Remove(fridgeProduct);
-        Save();
+        return fridgeProduct;
+    }
+
+    public void AddFridgeProduct(FridgeProduct fridgeProduct)
+    {
+        _db.Add(fridgeProduct);
+    }
+
+    public void UpdateProductQuantity(FridgeProduct fridgeProduct)
+    {
+        _db.Update(fridgeProduct);
+    }
+
+    public void RemoveFridgeProduct(RemoveProductsDto removeProductsDto)
+    {
+        var fridgeProduct = GetFridgeProductByIds(removeProductsDto.FridgeId, removeProductsDto.ProductId);
+
+        _db.Remove(fridgeProduct);
     }
 
     public List<FridgeProduct> GetProductsWithZeroQuantity()
