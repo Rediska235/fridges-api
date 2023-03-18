@@ -5,6 +5,7 @@ using Fridges.Application.Services.Services;
 using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
 using Fridges.Domain.Exceptions;
+using System.Text.Json;
 
 namespace Fridges.Application.Services.Implementations;
 
@@ -14,6 +15,7 @@ public class FridgeService : IFridgeService
     private readonly IProductRepository _productRepository;
     private readonly IFridgeModelRepository _fridgeModelRepository;
     private readonly IFridgeProductRepository _fridgeProductRepository;
+    private const string host = "https://localhost:7256";
 
     public FridgeService(IFridgeRepository repository,
         IFridgeModelRepository fridgeModelRepository,
@@ -64,6 +66,31 @@ public class FridgeService : IFridgeService
 
         _fridgeProductRepository.RemoveProducts(removeProductsDto);
         _repository.Save();
+    }
+    
+    public void UpdateProductsQuantity()
+    {
+        List<FridgeProduct> fridgeProducts = _fridgeProductRepository.GetProductsWithZeroQuantity();
+
+        //пока он добавляет записи в таблицу FridgeProducts а не изменяет количество
+        foreach(var fridgeProduct in fridgeProducts)
+        {
+            using var httpClient = new HttpClient();
+
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{host}/api/fridges/{fridgeProduct.Fridge.Id}/products");
+
+            var body = new
+            {
+                productId = fridgeProduct.Product.Id,
+                quanity = fridgeProduct.Product.DefaultQuantity
+            };
+            var stringBody = JsonSerializer.Serialize(body);
+            var requestBody = new StringContent(stringBody);
+            requestBody.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            request.Content = requestBody;
+
+            var response = httpClient.Send(request);
+        }
     }
 
     public Fridge CreateFridge(CreateFridgeDto createFridgeDto)

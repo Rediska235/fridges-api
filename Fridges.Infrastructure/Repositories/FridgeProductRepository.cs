@@ -4,6 +4,7 @@ using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
 using Fridges.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Fridges.Infrastructure.Repositories;
 
@@ -44,6 +45,23 @@ public class FridgeProductRepository : IFridgeProductRepository
         Save();
     }
 
+    public List<FridgeProduct> GetProductsWithZeroQuantity()
+    {
+        var ids = _db.FridgeProducts
+            .FromSql($"SearchProductsWithZeroQuantity")
+            .ToList()
+            .Select(fp => fp.Id)
+            .ToList();
+
+        var fridgeProducts = _db.FridgeProducts
+            .Include(fp => fp.Fridge)
+            .Include(fp => fp.Product)
+            .Where(fp => ids.Contains(fp.Id))
+            .ToList();
+        
+        return fridgeProducts;
+    }
+    
     public void Save()
     {
         _db.SaveChanges();

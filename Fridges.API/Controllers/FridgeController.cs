@@ -50,6 +50,14 @@ public class FridgeController : ControllerBase
         return Ok();
     }
 
+    [HttpPatch]
+    public IActionResult UpdateProductsQuantity()
+    {
+        _service.UpdateProductsQuantity();
+        return Ok();
+    }
+
+
     [HttpPost]
     public IActionResult CreateFridge(CreateFridgeDto createFridgeDto)
     {
