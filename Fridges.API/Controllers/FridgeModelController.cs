@@ -1,5 +1,6 @@
 ﻿using Fridges.Application.DTOs;
 using Fridges.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fridges.API.Controllers;
@@ -15,7 +16,7 @@ public class FridgeModelController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet, Authorize(Roles = "Admin")]
     public IActionResult GetAllFridgeModels()
     {
         return Ok(_service.GetAllFridgeModels());
