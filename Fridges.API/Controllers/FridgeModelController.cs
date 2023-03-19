@@ -28,21 +28,21 @@ public class FridgeModelController : ControllerBase
         return Ok(_service.GetFridgeModelById(id));
     }
 
-    [HttpPost]
+    [HttpPost, Authorize(Roles = "Fridge-maker")]
     public IActionResult CreateFridgeModel(CreateFridgeModelDto createFridgeModelDto)
     {
         var fridgeModel = _service.CreateFridgeModel(createFridgeModelDto);
         return Created($"/api/fridgemodels/{fridgeModel.Id}", fridgeModel);
     }
 
-    [HttpPut]
+    [HttpPut, Authorize(Roles = "Fridge-maker")]
     public IActionResult UpdateFridgeModel(UpdateFridgeModelDto updateFridgeModelDto)
     {
         var fridgeModel = _service.UpdateFridgeModel(updateFridgeModelDto);
         return Ok(fridgeModel);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id:guid}"), Authorize(Roles = "Fridge-maker")]
     public IActionResult DeleteFridgeModel(Guid id)
     {
         _service.DeleteFridgeModel(id);
