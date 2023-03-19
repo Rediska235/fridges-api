@@ -1,6 +1,7 @@
 ﻿using Fridges.Application.Repositories;
 using Fridges.Domain.Entities;
 using Fridges.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fridges.Infrastructure.Repositories;
 
@@ -15,11 +16,11 @@ public class UserRepository : IUserRepository
 
     public User GetUserByUsername(string username)
     {
-        return _db.Users.FirstOrDefault(u => u.Username == username);
+        return _db.Users.Include(u => u.Roles).FirstOrDefault(u => u.Username == username);
     }
     public User GetUserByRefreshToken(string refreshToken)
     {
-        return _db.Users.FirstOrDefault(u => u.RefreshToken == refreshToken);
+        return _db.Users.Include(u => u.Roles).FirstOrDefault(u => u.RefreshToken == refreshToken);
     }
 
     public void InsertUser(User user)

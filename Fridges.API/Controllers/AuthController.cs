@@ -1,5 +1,6 @@
 ﻿using Fridges.Application.DTOs;
 using Fridges.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fridges.API.Controllers;
@@ -40,12 +41,6 @@ public class AuthController : ControllerBase
         throw new NotImplementedException();
     }
 
-    [HttpPost("admin")]
-    public IActionResult GetAdminRights(string adminKey)
-    {
-        throw new NotImplementedException();
-    }
-
     [HttpGet("refresh-token")]
     public IActionResult RefreshToken()
     {
@@ -53,5 +48,13 @@ public class AuthController : ControllerBase
         string refreshToken = _authService.RefreshToken(secretKey);
 
         return Ok(refreshToken);
+    }
+
+    [HttpPost("give-role"), Authorize(Roles = "Admin")]
+    public IActionResult GiveRole(GiveRoleDto giveRoleDto)
+    {
+        _authService.GiveRole(giveRoleDto);
+
+        return Ok();
     }
 }

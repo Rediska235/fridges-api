@@ -18,4 +18,6 @@ public class User
     public DateTime TokenCreated { get; set; }
 
     public DateTime TokenExpires { get; set; }
+
+    public List<Role> Roles { get; set; } = new List<Role>();
 }

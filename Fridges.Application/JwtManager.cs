@@ -13,9 +13,13 @@ public static class JwtManager
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, "Guest")
+            new Claim(ClaimTypes.Name, user.Username)           
         };
+
+        foreach (var role in user.Roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role.Title));
+        }
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
 

@@ -16,7 +16,7 @@ public class FridgeModelController : ControllerBase
         _service = service;
     }
 
-    [HttpGet, Authorize(Roles = "Admin")]
+    [HttpGet]
     public IActionResult GetAllFridgeModels()
     {
         return Ok(_service.GetAllFridgeModels());

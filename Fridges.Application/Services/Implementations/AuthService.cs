@@ -10,11 +10,13 @@ namespace Fridges.Application.Services.Implementations;
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _repository;
+    private readonly IRoleRepository _roleRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AuthService(IUserRepository repository, IHttpContextAccessor httpContextAccessor)
+    public AuthService(IUserRepository repository, IRoleRepository roleRepository, IHttpContextAccessor httpContextAccessor)
     {
         _repository = repository;
+        _roleRepository = roleRepository;
         _httpContextAccessor = httpContextAccessor;
     }
 
@@ -91,4 +93,28 @@ public class AuthService : IAuthService
         return token;
     }
 
+    public void GiveRole(GiveRoleDto giveRoleDto)
+    {
+        giveRoleDto.Username = giveRoleDto.Username.Trim();
+        giveRoleDto.RoleName = giveRoleDto.RoleName.Trim();
+
+        var user = _repository.GetUserByUsername(giveRoleDto.Username);
+        if (user == null)
+        {
+            throw Exceptions.userNotFound;
+        }
+
+        var role = _roleRepository.GetRoleByName(giveRoleDto.RoleName);
+        if(role == null)
+        {
+            throw Exceptions.roleNotFound;
+        }
+
+        //не уверен что оно сохранит роли
+        if(!user.Roles.Contains(role))
+        {
+            user.Roles.Add(role);
+            _repository.Save();
+        }
+    }
 }
