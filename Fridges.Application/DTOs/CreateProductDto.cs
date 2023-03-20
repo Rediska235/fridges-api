@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Fridges.API.DTOs;
+namespace Fridges.Application.DTOs;
 
 public class CreateProductDto
 {

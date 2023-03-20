@@ -35,12 +35,6 @@ public class AuthController : ControllerBase
         return Ok(token);
     }
 
-    [HttpGet("logout")]
-    public IActionResult Logout()
-    {
-        throw new NotImplementedException();
-    }
-
     [HttpGet("refresh-token")]
     public IActionResult RefreshToken()
     {

@@ -47,7 +47,7 @@ public class FridgeController : ControllerBase
     public IActionResult RemoveProducts(Guid fridgeId, Guid productId)
     {
         _service.RemoveProducts(fridgeId, productId);
-        return Ok();
+        return NoContent();
     }
 
     [HttpPatch]
@@ -56,7 +56,6 @@ public class FridgeController : ControllerBase
         _service.UpdateProductsQuantity();
         return Ok();
     }
-
 
     [HttpPost]
     public IActionResult CreateFridge(CreateFridgeDto createFridgeDto)
