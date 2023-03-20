@@ -5,7 +5,6 @@ using Fridges.Application.DTOs;
 using Fridges.Application.Services.Interfaces;
 using Fridges.Domain.DTOs;
 using Fridges.Domain.Entities;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -15,10 +14,13 @@ public class FridgeControllerTests
 {
     private readonly Mock<IFridgeService> _fridgeServiceMock;
     private readonly Fixture _fixture;
+    private readonly FridgeController controller;
 
     public FridgeControllerTests()
     {
         _fridgeServiceMock = new Mock<IFridgeService>();
+
+        controller = new FridgeController(_fridgeServiceMock.Object);
 
         _fixture = new Fixture();
         _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _fixture.Behaviors.Remove(b));
@@ -31,8 +33,6 @@ public class FridgeControllerTests
         // Arrange
         var fridges = _fixture.CreateMany<Fridge>();
         _fridgeServiceMock.Setup(x => x.GetAllFridges()).Returns(fridges);
-
-        var controller = new FridgeController(_fridgeServiceMock.Object);
 
         // Act
         var result = controller.GetAllFridges();
@@ -48,8 +48,6 @@ public class FridgeControllerTests
         var fridges = _fixture.CreateMany<Fridge>();
         _fridgeServiceMock.Setup(x => x.GetAllFridges()).Returns(fridges);
 
-        var controller = new FridgeController(_fridgeServiceMock.Object);
-
         // Act
         var result = controller.GetAllFridges() as OkObjectResult;
 
@@ -64,8 +62,6 @@ public class FridgeControllerTests
         var productQuantities = _fixture.CreateMany<ProductQuantity>();
         _fridgeServiceMock.Setup(x => x.GetProductsByFridgeId(It.IsAny<Guid>())).Returns(productQuantities);
 
-        var controller = new FridgeController(_fridgeServiceMock.Object);
-
         // Act
         var result = controller.GetProductsByFridgeId(Guid.NewGuid());
 
@@ -78,48 +74,37 @@ public class FridgeControllerTests
     {
         // Arrange
         var fridge = _fixture.Create<Fridge>();
-        var productQuantities = _fixture.CreateMany<ProductQuantity>();
-        _fridgeServiceMock.Setup(x => x.GetFridgeById(It.IsAny<Guid>())).Returns(fridge);
-        _fridgeServiceMock.Setup(x => x.GetProductsByFridgeId(It.IsAny<Guid>())).Returns(productQuantities);
-        
-        var fridgeWithProducts = new FridgeWithProductsDto
-        {
-            Fridge = fridge,
-            Products = productQuantities
-        };
-        
-        var controller = new FridgeController(_fridgeServiceMock.Object);
+        var products = _fixture.CreateMany<ProductQuantity>();
+        var fridgeId = Guid.NewGuid();
+        _fridgeServiceMock.Setup(x => x.GetFridgeById(fridgeId)).Returns(fridge);
+        _fridgeServiceMock.Setup(x => x.GetProductsByFridgeId(fridgeId)).Returns(products);
 
         // Act
-        var result = controller.GetProductsByFridgeId(Guid.NewGuid()) as OkObjectResult;
-
+        var result = controller.GetProductsByFridgeId(fridgeId) as OkObjectResult;
+        var fridgeWithProductsFromTest = (FridgeWithProductsDto)result.Value;
         // Assert
-        Assert.Equal(fridgeWithProducts, result.Value);
+        Assert.Equal(fridge, fridgeWithProductsFromTest.Fridge);
+        Assert.Equal(products, fridgeWithProductsFromTest.Products);
     }
 
     [Fact]
-    public void AddProducts_ReturnsOkObjectResult()
+    public void AddProducts_ReturnsOkResult()
     {
         // Arrange
         _fridgeServiceMock.Setup(x => x.AddProducts(It.IsAny<Guid>(), It.IsAny<AddProductsDto>()));
-
-        var controller = new FridgeController(_fridgeServiceMock.Object);
 
         // Act
         var result = controller.AddProducts(Guid.NewGuid(), new AddProductsDto());
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
+        Assert.IsType<OkResult>(result);
     }
 
     [Fact]
     public void RemoveProductFromFridge_ReturnsNoContentResult()
     {
         // Arrange
-        var productQuantity = _fixture.Create<ProductQuantity>();
         _fridgeServiceMock.Setup(x => x.RemoveProducts(It.IsAny<Guid>(), It.IsAny<Guid>()));
-
-        var controller = new FridgeController(_fridgeServiceMock.Object);
 
         // Act
         var result = controller.RemoveProducts(Guid.NewGuid(), Guid.NewGuid());
@@ -132,7 +117,6 @@ public class FridgeControllerTests
     public void UpdateProductsQuantity_ReturnsOkObjectResult()
     {
         // Arrange
-        var controller = new FridgeController(_fridgeServiceMock.Object);
 
         // Act
         var result = controller.UpdateProductsQuantity();
@@ -148,8 +132,6 @@ public class FridgeControllerTests
         var fridge = _fixture.Create<Fridge>();
         _fridgeServiceMock.Setup(x => x.CreateFridge(It.IsAny<CreateFridgeDto>())).Returns(fridge);
 
-        var controller = new FridgeController(_fridgeServiceMock.Object);
-
         // Act
         var result = controller.CreateFridge(new CreateFridgeDto());
 
@@ -164,10 +146,36 @@ public class FridgeControllerTests
         var fridge = _fixture.Create<Fridge>();
         _fridgeServiceMock.Setup(x => x.CreateFridge(It.IsAny<CreateFridgeDto>())).Returns(fridge);
 
-        var controller = new FridgeController(_fridgeServiceMock.Object);
-
         // Act
         var result = controller.CreateFridge(new CreateFridgeDto()) as CreatedResult;
+
+        // Assert
+        Assert.Equal(fridge, result.Value);
+    }
+
+    [Fact]
+    public void UpdateFridge_ReturnsOkObjectResult()
+    {
+        // Arrange
+        var fridge = _fixture.Create<Fridge>();
+        _fridgeServiceMock.Setup(x => x.UpdateFridge(It.IsAny<UpdateFridgeDto>())).Returns(fridge);
+
+        // Act
+        var result = controller.UpdateFridge(new UpdateFridgeDto());
+
+        // Assert
+        Assert.IsType<OkObjectResult>(result);
+    }
+
+    [Fact]
+    public void UpdateFridge_ReturnsUpdatedFridge()
+    {
+        // Arrange
+        var fridge = _fixture.Create<Fridge>();
+        _fridgeServiceMock.Setup(x => x.UpdateFridge(It.IsAny<UpdateFridgeDto>())).Returns(fridge);
+
+        // Act
+        var result = controller.UpdateFridge(new UpdateFridgeDto()) as OkObjectResult;
 
         // Assert
         Assert.Equal(fridge, result.Value);
@@ -178,8 +186,6 @@ public class FridgeControllerTests
     {
         // Arrange
         _fridgeServiceMock.Setup(x => x.DeleteFridge(It.IsAny<Guid>()));
-
-        var controller = new FridgeController(_fridgeServiceMock.Object);
 
         // Act
         var result = controller.DeleteFridge(Guid.NewGuid());

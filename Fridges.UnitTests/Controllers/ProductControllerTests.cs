@@ -12,10 +12,13 @@ public class ProductControllerTests
 {
     private readonly Mock<IProductService> _productServiceMock;
     private readonly Fixture _fixture;
+    private readonly ProductController controller;
 
     public ProductControllerTests()
     {
         _productServiceMock = new Mock<IProductService>();
+
+        controller = new ProductController(_productServiceMock.Object);
 
         _fixture = new Fixture();
         _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _fixture.Behaviors.Remove(b));
@@ -28,8 +31,6 @@ public class ProductControllerTests
         // Arrange
         var products = _fixture.CreateMany<Product>();
         _productServiceMock.Setup(x => x.GetAllProducts()).Returns(products);
-
-        var controller = new ProductController(_productServiceMock.Object);
 
         // Act
         var result = controller.GetAllProducts();
@@ -45,8 +46,6 @@ public class ProductControllerTests
         var products = _fixture.CreateMany<Product>();
         _productServiceMock.Setup(x => x.GetAllProducts()).Returns(products);
 
-        var controller = new ProductController(_productServiceMock.Object);
-
         // Act
         var result = controller.GetAllProducts() as OkObjectResult;
 
@@ -60,8 +59,6 @@ public class ProductControllerTests
         // Arrange
         var product = _fixture.Create<Product>();
         _productServiceMock.Setup(x => x.GetProductById(It.IsAny<Guid>())).Returns(product);
-
-        var controller = new ProductController(_productServiceMock.Object);
 
         // Act
         var result = controller.GetProductById(Guid.NewGuid());
@@ -77,8 +74,6 @@ public class ProductControllerTests
         var product = _fixture.Create<Product>();
         _productServiceMock.Setup(x => x.GetProductById(It.IsAny<Guid>())).Returns(product);
 
-        var controller = new ProductController(_productServiceMock.Object);
-
         // Act
         var result = controller.GetProductById(Guid.NewGuid()) as OkObjectResult;
 
@@ -92,8 +87,6 @@ public class ProductControllerTests
         // Arrange
         var product = _fixture.Create<Product>();
         _productServiceMock.Setup(x => x.CreateProduct(It.IsAny<CreateProductDto>())).Returns(product);
-
-        var controller = new ProductController(_productServiceMock.Object);
 
         // Act
         var result = controller.CreateProduct(_fixture.Create<CreateProductDto>());
@@ -109,8 +102,6 @@ public class ProductControllerTests
         var product = _fixture.Create<Product>();
         _productServiceMock.Setup(x => x.CreateProduct(It.IsAny<CreateProductDto>())).Returns(product);
 
-        var controller = new ProductController(_productServiceMock.Object);
-
         // Act
         var result = controller.CreateProduct(_fixture.Create<CreateProductDto>()) as CreatedResult;
 
@@ -124,8 +115,6 @@ public class ProductControllerTests
         // Arrange
         var product = _fixture.Create<Product>();
         _productServiceMock.Setup(x => x.UpdateProduct(It.IsAny<UpdateProductDto>())).Returns(product);
-
-        var controller = new ProductController(_productServiceMock.Object);
 
         // Act
         var result = controller.UpdateProduct(_fixture.Create<UpdateProductDto>());
@@ -141,8 +130,6 @@ public class ProductControllerTests
         var product = _fixture.Create<Product>();
         _productServiceMock.Setup(x => x.UpdateProduct(It.IsAny<UpdateProductDto>())).Returns(product);
 
-        var controller = new ProductController(_productServiceMock.Object);
-
         // Act
         var result = controller.UpdateProduct(_fixture.Create<UpdateProductDto>()) as OkObjectResult;
 
@@ -154,7 +141,6 @@ public class ProductControllerTests
     public void DeleteProduct_ReturnsNoContentResult()
     {
         // Arrange
-        var controller = new ProductController(_productServiceMock.Object);
 
         // Act
         var result = controller.DeleteProduct(Guid.NewGuid());
