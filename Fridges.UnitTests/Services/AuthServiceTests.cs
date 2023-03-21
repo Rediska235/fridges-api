@@ -91,7 +91,7 @@ public class AuthServiceTests
         var user = _fixture.Create<User>();
         var userDto = _fixture.Create<UserDto>();
         userDto.Password = "qwerty";
-                            //bcrypt hash of "qwerty"
+                            //bcrypt hash for "qwerty"
         user.PasswordHash = "$2a$12$Jp4.xazH7vY.0mHMSobdhe4UlVRsIRyY.WO/uhK4NKbMqRlwAr9KO";
         _userRepository.Setup(x => x.GetUserByUsername(It.IsAny<string>())).Returns(user);
         _httpContextAccessor.Setup(x => x.HttpContext.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
