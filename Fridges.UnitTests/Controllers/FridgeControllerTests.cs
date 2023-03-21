@@ -28,7 +28,7 @@ public class FridgeControllerTests
     }
 
     [Fact]
-    public void GetAllFridges_ReturnsOkObjectResult()
+    public void GetAllFridges_ReturnsOkObjectResult_WithAllFridges()
     {
         // Arrange
         var fridges = _fixture.CreateMany<Fridge>();
@@ -38,39 +38,12 @@ public class FridgeControllerTests
         var result = controller.GetAllFridges();
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
-    }
-
-    [Fact]
-    public void GetAllFridges_ReturnsAllFridges()
-    {
-        // Arrange
-        var fridges = _fixture.CreateMany<Fridge>();
-        _fridgeServiceMock.Setup(x => x.GetAllFridges()).Returns(fridges);
-
-        // Act
-        var result = controller.GetAllFridges() as OkObjectResult;
-
-        // Assert
-        Assert.Equal(fridges, result.Value);
-    }
-
-    [Fact]
-    public void GetProductsByFridgeId_ReturnsOkObjectResult()
-    {
-        // Arrange
-        var productQuantities = _fixture.CreateMany<ProductQuantity>();
-        _fridgeServiceMock.Setup(x => x.GetProductsByFridgeId(It.IsAny<Guid>())).Returns(productQuantities);
-
-        // Act
-        var result = controller.GetProductsByFridgeId(Guid.NewGuid());
-
-        // Assert
-        Assert.IsType<OkObjectResult>(result);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(fridges, resultObject.Value);
     }
     
     [Fact]
-    public void GetProductsByFridgeId_ReturnsProductsByFridgeId()
+    public void GetProductsByFridgeId_ReturnsOkObjectResult_WithFridgeAndProducts()
     {
         // Arrange
         var fridge = _fixture.Create<Fridge>();
@@ -80,9 +53,12 @@ public class FridgeControllerTests
         _fridgeServiceMock.Setup(x => x.GetProductsByFridgeId(fridgeId)).Returns(products);
 
         // Act
-        var result = controller.GetProductsByFridgeId(fridgeId) as OkObjectResult;
-        var fridgeWithProductsFromTest = (FridgeWithProductsDto)result.Value;
+        var result = controller.GetProductsByFridgeId(fridgeId);
+
         // Assert
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        var fridgeWithProductsFromTest = (FridgeWithProductsDto)resultObject.Value;
+
         Assert.Equal(fridge, fridgeWithProductsFromTest.Fridge);
         Assert.Equal(products, fridgeWithProductsFromTest.Products);
     }
@@ -126,7 +102,7 @@ public class FridgeControllerTests
     }
 
     [Fact]
-    public void CreateFridge_ReturnsCreatedResult()
+    public void CreateFridge_ReturnsCreatedResult_WithCreatedFridge()
     {
         // Arrange
         var fridge = _fixture.Create<Fridge>();
@@ -136,25 +112,12 @@ public class FridgeControllerTests
         var result = controller.CreateFridge(new CreateFridgeDto());
 
         // Assert
-        Assert.IsType<CreatedResult>(result);
+        var resultObject = Assert.IsType<CreatedResult>(result);
+        Assert.Equal(fridge, resultObject.Value);
     }
 
     [Fact]
-    public void CreateFridge_ReturnsCreatedFridge()
-    {
-        // Arrange
-        var fridge = _fixture.Create<Fridge>();
-        _fridgeServiceMock.Setup(x => x.CreateFridge(It.IsAny<CreateFridgeDto>())).Returns(fridge);
-
-        // Act
-        var result = controller.CreateFridge(new CreateFridgeDto()) as CreatedResult;
-
-        // Assert
-        Assert.Equal(fridge, result.Value);
-    }
-
-    [Fact]
-    public void UpdateFridge_ReturnsOkObjectResult()
+    public void UpdateFridge_ReturnsOkObjectResult_WithUpdatedFridge()
     {
         // Arrange
         var fridge = _fixture.Create<Fridge>();
@@ -164,21 +127,8 @@ public class FridgeControllerTests
         var result = controller.UpdateFridge(new UpdateFridgeDto());
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
-    }
-
-    [Fact]
-    public void UpdateFridge_ReturnsUpdatedFridge()
-    {
-        // Arrange
-        var fridge = _fixture.Create<Fridge>();
-        _fridgeServiceMock.Setup(x => x.UpdateFridge(It.IsAny<UpdateFridgeDto>())).Returns(fridge);
-
-        // Act
-        var result = controller.UpdateFridge(new UpdateFridgeDto()) as OkObjectResult;
-
-        // Assert
-        Assert.Equal(fridge, result.Value);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(fridge, resultObject.Value);
     }
 
     [Fact]

@@ -31,7 +31,7 @@ public class AuthControllerTests
     }
 
     [Fact]
-    public void Register_ReturnsOkObjectResult()
+    public void Register_ReturnsOkObjectResult_WithUser()
     {
         // Arrange
         var user = _fixture.Create<User>();
@@ -41,25 +41,12 @@ public class AuthControllerTests
         var result = controller.Register(new UserDto());
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(user, resultObject.Value);
     }
 
     [Fact]
-    public void Register_ReturnsUser()
-    {
-        // Arrange
-        var user = _fixture.Create<User>();
-        _authServiceMock.Setup(x => x.Register(It.IsAny<UserDto>())).Returns(user);
-
-        // Act
-        var result = controller.Register(new UserDto()) as OkObjectResult;
-
-        // Assert
-        Assert.Equal(user, result.Value);
-    }
-
-    [Fact]
-    public void Login_ReturnsOkObjectResult()
+    public void Login_ReturnsOkObjectResult_WithToken()
     {
         // Arrange
         var token = "jwt";
@@ -71,27 +58,12 @@ public class AuthControllerTests
         var result = controller.Login(new UserDto());
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(token, resultObject.Value);
     }
 
     [Fact]
-    public void Login_ReturnsToken()
-    {
-        // Arrange
-        var token = "jwt";
-        _authServiceMock.Setup(x => x.Login(It.IsAny<UserDto>(), It.IsAny<string>())).Returns(token);
-        _configurationSection.Setup(x => x.Value).Returns("some string");
-        _configuration.Setup(x => x.GetSection(It.IsAny<string>())).Returns(_configurationSection.Object);
-
-        // Act
-        var result = controller.Login(new UserDto()) as OkObjectResult;
-
-        // Assert
-        Assert.Equal(token, result.Value);
-    }
-
-    [Fact]
-    public void RefreshToken_ReturnsOkObjectResult()
+    public void RefreshToken_ReturnsOkObjectResult_WithToken()
     {
         // Arrange
         var token = "jwt";
@@ -103,23 +75,8 @@ public class AuthControllerTests
         var result = controller.RefreshToken();
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
-    }
-
-    [Fact]
-    public void RefreshToken_ReturnsToken()
-    {
-        // Arrange
-        var token = "jwt";
-        _authServiceMock.Setup(x => x.RefreshToken(It.IsAny<string>())).Returns(token);
-        _configurationSection.Setup(x => x.Value).Returns("some string");
-        _configuration.Setup(x => x.GetSection(It.IsAny<string>())).Returns(_configurationSection.Object);
-
-        // Act
-        var result = controller.RefreshToken() as OkObjectResult;
-
-        // Assert
-        Assert.Equal(token, result.Value);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(token, resultObject.Value);
     }
 
     [Fact]

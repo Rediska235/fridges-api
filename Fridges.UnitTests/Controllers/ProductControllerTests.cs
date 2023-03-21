@@ -26,7 +26,7 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void GetAllProducts_ReturnsOkObjectResult()
+    public void GetAllProducts_ReturnsOkObjectResult_WithAllProducts()
     {
         // Arrange
         var products = _fixture.CreateMany<Product>();
@@ -36,25 +36,12 @@ public class ProductControllerTests
         var result = controller.GetAllProducts();
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(products, resultObject.Value);
     }
 
     [Fact]
-    public void GetAllProducts_ReturnsAllProducts()
-    {
-        // Arrange
-        var products = _fixture.CreateMany<Product>();
-        _productServiceMock.Setup(x => x.GetAllProducts()).Returns(products);
-
-        // Act
-        var result = controller.GetAllProducts() as OkObjectResult;
-
-        // Assert
-        Assert.Equal(products, result.Value);
-    }
-
-    [Fact]
-    public void GetProductById_ReturnsOkObjectResult()
+    public void GetProductById_ReturnsOkObjectResult_WithSingleProduct()
     {
         // Arrange
         var product = _fixture.Create<Product>();
@@ -64,25 +51,12 @@ public class ProductControllerTests
         var result = controller.GetProductById(Guid.NewGuid());
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(product, resultObject.Value);
     }
 
     [Fact]
-    public void GetProductById_ReturnsProduct()
-    {
-        // Arrange
-        var product = _fixture.Create<Product>();
-        _productServiceMock.Setup(x => x.GetProductById(It.IsAny<Guid>())).Returns(product);
-
-        // Act
-        var result = controller.GetProductById(Guid.NewGuid()) as OkObjectResult;
-
-        // Assert
-        Assert.Equal(product, result.Value);
-    }
-
-    [Fact]
-    public void CreateProduct_ReturnsCreatedResult()
+    public void CreateProduct_ReturnsCreatedResult_WithCreatedProduct()
     {
         // Arrange
         var product = _fixture.Create<Product>();
@@ -92,25 +66,12 @@ public class ProductControllerTests
         var result = controller.CreateProduct(_fixture.Create<CreateProductDto>());
 
         // Assert
-        Assert.IsType<CreatedResult>(result);
+        var resultObject = Assert.IsType<CreatedResult>(result);
+        Assert.Equal(product, resultObject.Value);
     }
 
     [Fact]
-    public void CreateProduct_ReturnsProduct()
-    {
-        // Arrange
-        var product = _fixture.Create<Product>();
-        _productServiceMock.Setup(x => x.CreateProduct(It.IsAny<CreateProductDto>())).Returns(product);
-
-        // Act
-        var result = controller.CreateProduct(_fixture.Create<CreateProductDto>()) as CreatedResult;
-
-        // Assert
-        Assert.Equal(product, result.Value);
-    }
-
-    [Fact]
-    public void UpdateProduct_ReturnsOkObjectResult()
+    public void UpdateProduct_ReturnsOkObjectResult_WithUpdatedProduct()
     {
         // Arrange
         var product = _fixture.Create<Product>();
@@ -120,21 +81,8 @@ public class ProductControllerTests
         var result = controller.UpdateProduct(_fixture.Create<UpdateProductDto>());
 
         // Assert
-        Assert.IsType<OkObjectResult>(result);
-    }
-
-    [Fact]
-    public void UpdateProduct_ReturnsProduct()
-    {
-        // Arrange
-        var product = _fixture.Create<Product>();
-        _productServiceMock.Setup(x => x.UpdateProduct(It.IsAny<UpdateProductDto>())).Returns(product);
-
-        // Act
-        var result = controller.UpdateProduct(_fixture.Create<UpdateProductDto>()) as OkObjectResult;
-
-        // Assert
-        Assert.Equal(product, result.Value);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(product, resultObject.Value);
     }
 
     [Fact]
