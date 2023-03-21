@@ -35,7 +35,7 @@ public class FridgeModelService : IFridgeModelService
 
         var fridgeModel = new FridgeModel()
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             Name = fridgeModelName,
             Year = createFridgeModelDto.Year
         };
@@ -49,10 +49,6 @@ public class FridgeModelService : IFridgeModelService
     public FridgeModel UpdateFridgeModel(UpdateFridgeModelDto updateFridgeModelDto)
     {
         var fridgeModel = _repository.GetFridgeModelById(updateFridgeModelDto.Id);
-        if (fridgeModel == null)
-        {
-            throw Exceptions.fridgeModelNotFound;
-        }
 
         var fridgeModelName = updateFridgeModelDto.Name.Trim();
         if (fridgeModelName != fridgeModel.Name && AlreadyExists(fridgeModelName))

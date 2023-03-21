@@ -36,7 +36,7 @@ public class ProductService : IProductService
 
         var product = new Product()
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             Name = productName,
             DefaultQuantity = createProductDto.DefaultQuantity
         };
@@ -50,10 +50,6 @@ public class ProductService : IProductService
     public Product UpdateProduct(UpdateProductDto updateProductDto)
     {
         var product = _repository.GetProductById(updateProductDto.Id);
-        if (product == null)
-        {
-            throw Exceptions.productNotFound;
-        }
 
         var productName = updateProductDto.Name.Trim();
         if (productName != product.Name && AlreadyExists(productName))

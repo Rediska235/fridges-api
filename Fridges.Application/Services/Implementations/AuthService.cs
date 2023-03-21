@@ -30,7 +30,7 @@ public class AuthService : IAuthService
 
         user = new User()
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             Username = request.Username,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
         };
@@ -63,11 +63,6 @@ public class AuthService : IAuthService
         _repository.Save();
 
         return token;
-    }
-
-    public void Logout()
-    {
-        throw new NotImplementedException();
     }
 
     public string RefreshToken(string secretKey)
@@ -109,8 +104,7 @@ public class AuthService : IAuthService
         {
             throw Exceptions.roleNotFound;
         }
-
-        //не уверен что оно сохранит роли
+        
         if(!user.Roles.Contains(role))
         {
             user.Roles.Add(role);

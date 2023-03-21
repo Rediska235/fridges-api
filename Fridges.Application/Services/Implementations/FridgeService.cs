@@ -48,7 +48,7 @@ public class FridgeService : IFridgeService
         var fridgeProductInDb = _fridgeProductRepository.GetFridgeProductByIds(fridgeId, addProductsDto.ProductId);
         if (fridgeProductInDb != null)
         {
-            fridgeProductInDb.Quantity += addProductsDto.Quanity;
+            fridgeProductInDb.Quantity += addProductsDto.Quantity;
             if(fridgeProductInDb.Quantity < 0)
             {
                 throw Exceptions.negativeProductQuantity;
@@ -58,12 +58,17 @@ public class FridgeService : IFridgeService
         }
         else
         {
+            if(addProductsDto.Quantity < 0)
+            {
+                throw Exceptions.negativeProductQuantity;
+            }
+            
             var fridgeProduct = new FridgeProduct()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Fridge = _repository.GetFridgeById(fridgeId),
                 Product = _productRepository.GetProductById(addProductsDto.ProductId),
-                Quantity = addProductsDto.Quanity
+                Quantity = addProductsDto.Quantity
             };
 
             _fridgeProductRepository.AddFridgeProduct(fridgeProduct);
@@ -119,7 +124,7 @@ public class FridgeService : IFridgeService
 
         var fridge = new Fridge()
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             Name = fridgeName,
             OwnerName = ownerName,
             FridgeModel = _fridgeModelRepository.GetFridgeModelById(createFridgeDto.FridgeModelId)
@@ -133,11 +138,7 @@ public class FridgeService : IFridgeService
     public Fridge UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
         var fridge = _repository.GetFridgeById(updateFridgeDto.Id);
-        if (fridge == null)
-        {
-            throw Exceptions.fridgeNotFound;
-        }
-
+        
         var ownerName = updateFridgeDto.OwnerName?.Trim();
         var fridgeName = updateFridgeDto.Name.Trim();
         if (fridgeName != fridge.Name && AlreadyExists(fridgeName))
