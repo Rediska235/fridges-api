@@ -3,9 +3,11 @@ using Fridges.API.Controllers;
 using Fridges.Application.DTOs;
 using Fridges.Application.Services.Interfaces;
 using Fridges.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using System.Security.Claims;
 
 namespace Fridges.UnitTests.Controllers;
 
@@ -22,7 +24,7 @@ public class AuthControllerTests
         _authServiceMock = new Mock<IAuthService>();
         _configuration = new Mock<IConfiguration>();
         _configurationSection = new Mock<IConfigurationSection>();
-        
+
         controller = new AuthController(_authServiceMock.Object, _configuration.Object);
 
         _fixture = new Fixture();
@@ -67,7 +69,14 @@ public class AuthControllerTests
     {
         // Arrange
         var token = "jwt";
-        _authServiceMock.Setup(x => x.RefreshToken(It.IsAny<string>())).Returns(token);
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Name, "username"),
+
+        }, "mock"));
+        controller.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+
+        _authServiceMock.Setup(x => x.RefreshToken(It.IsAny<string>(), It.IsAny<string>())).Returns(token);
         _configurationSection.Setup(x => x.Value).Returns("some string");
         _configuration.Setup(x => x.GetSection(It.IsAny<string>())).Returns(_configurationSection.Object);
 

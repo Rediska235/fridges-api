@@ -113,7 +113,7 @@ public class AuthServiceTests
         // Act
 
         // Assert
-        Assert.Throws<InvalidCredentialException>(() => service.RefreshToken(_fixture.Create<string>()));
+        Assert.Throws<InvalidCredentialException>(() => service.RefreshToken(_fixture.Create<string>(), _fixture.Create<string>()));
     }
 
     [Fact]
@@ -128,11 +128,11 @@ public class AuthServiceTests
         // Act
 
         // Assert
-        Assert.Throws<InvalidCredentialException>(() => service.RefreshToken(_fixture.Create<string>()));
+        Assert.Throws<InvalidCredentialException>(() => service.RefreshToken(_fixture.Create<string>(), _fixture.Create<string>()));
     }
 
     [Fact]
-    public void RefreshToken_Successful()
+    public void RefreshToken_ThrowException_WhenSomeoneElsesJWT()
     {
         // Arrange
         var user = _fixture.Create<User>();
@@ -142,7 +142,24 @@ public class AuthServiceTests
         _httpContextAccessor.Setup(x => x.HttpContext.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
 
         // Act
-        var exception = Record.Exception(() => service.RefreshToken(_fixture.Create<string>()));
+
+        // Assert
+        Assert.Throws<InvalidCredentialException>(() => service.RefreshToken(_fixture.Create<string>(), _fixture.Create<string>()));
+    }
+
+    [Fact]
+    public void RefreshToken_Successful()
+    {
+        // Arrange
+        var user = _fixture.Create<User>();
+        user.TokenExpires = DateTime.Now.AddDays(1);
+        _userRepository.Setup(x => x.GetUserByRefreshToken(It.IsAny<string>())).Returns(user);
+        var username = user.Username;
+        _httpContextAccessor.Setup(x => x.HttpContext.Request.Cookies["refreshToken"]).Returns(_fixture.Create<string>());
+        _httpContextAccessor.Setup(x => x.HttpContext.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
+
+        // Act
+        var exception = Record.Exception(() => service.RefreshToken(username, _fixture.Create<string>()));
 
         // Assert
         Assert.Null(exception);
