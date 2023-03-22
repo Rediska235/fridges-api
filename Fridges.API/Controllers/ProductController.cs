@@ -17,7 +17,7 @@ public class ProductController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public IActionResult GetAllProducts()
     {
         return Ok(_service.GetAllProducts());
