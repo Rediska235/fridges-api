@@ -19,6 +19,6 @@ public static class Exceptions
     public static NotAllowedException negativeProductQuantity = new("You can't add new products with negative quantity.");
 
     public static InvalidCredentialException invalidCredential = new("Invalid username or password.");
-    public static InvalidCredentialException invalidRefreshToken = new("Invalid refresh token.");
+    public static InvalidCredentialException invalidRefreshToken = new("Invalid refresh or access token.");
     public static InvalidCredentialException expiredRefreshToken = new("Expired refresh token.");
 }

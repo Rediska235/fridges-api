@@ -1,5 +1,6 @@
 ﻿using Fridges.Application.DTOs;
 using Fridges.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,11 +36,12 @@ public class AuthController : ControllerBase
         return Ok(token);
     }
 
-    [HttpGet("refresh-token")]
+    [HttpGet("refresh-token"), Authorize(AuthenticationSchemes = "ExpiredTokenAllowed")]
     public IActionResult RefreshToken()
     {
+        var username = User.Identity.Name;
         string secretKey = _configuration.GetSection("JWT:Key").Value;
-        string refreshToken = _authService.RefreshToken(secretKey);
+        string refreshToken = _authService.RefreshToken(username, secretKey);
 
         return Ok(refreshToken);
     }

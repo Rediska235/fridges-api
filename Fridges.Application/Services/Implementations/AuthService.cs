@@ -65,11 +65,11 @@ public class AuthService : IAuthService
         return token;
     }
 
-    public string RefreshToken(string secretKey)
+    public string RefreshToken(string username, string secretKey)
     {
         var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
         var user = _repository.GetUserByRefreshToken(refreshToken);
-        if (user == null)
+        if (user == null || user.Username != username)
         {
             throw Exceptions.invalidRefreshToken;
         }

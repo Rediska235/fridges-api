@@ -7,6 +7,6 @@ public interface IAuthService
 {
     User Register(UserDto request);
     string Login(UserDto request, string secretKey);
-    string RefreshToken(string secretKey);
+    string RefreshToken(string username, string secretKey);
     void GiveRole(GiveRoleDto giveRoleDto);
 }

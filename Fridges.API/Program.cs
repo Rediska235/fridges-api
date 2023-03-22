@@ -46,6 +46,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ClockSkew = TimeSpan.Zero
         };
+    })
+    .AddJwtBearer("ExpiredTokenAllowed", options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(builder.Configuration.GetSection("JWT:Key").Value)),
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = false,
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        };
     });
 
 var app = builder.Build();
