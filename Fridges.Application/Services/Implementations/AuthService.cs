@@ -73,10 +73,6 @@ public class AuthService : IAuthService
         {
             throw Exceptions.invalidRefreshToken;
         }
-        else if (DateTime.Now > user.TokenExpires)
-        {
-            throw Exceptions.expiredRefreshToken;
-        }
 
         string token = JwtManager.CreateToken(user, secretKey);
 

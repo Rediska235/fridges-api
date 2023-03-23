@@ -117,21 +117,6 @@ public class AuthServiceTests
     }
 
     [Fact]
-    public void RefreshToken_ThrowsException_WhenTokenExpired()
-    {
-        // Arrange
-        var user = _fixture.Create<User>();
-        user.TokenExpires = DateTime.Now.AddDays(-1);
-        _userRepository.Setup(x => x.GetUserByRefreshToken(It.IsAny<string>())).Returns(user);
-        _httpContextAccessor.Setup(x => x.HttpContext.Request.Cookies["refreshToken"]).Returns(_fixture.Create<string>());
-
-        // Act
-
-        // Assert
-        Assert.Throws<InvalidCredentialException>(() => service.RefreshToken(_fixture.Create<string>(), _fixture.Create<string>()));
-    }
-
-    [Fact]
     public void RefreshToken_ThrowException_WhenSomeoneElsesJWT()
     {
         // Arrange
