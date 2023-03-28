@@ -24,7 +24,7 @@ public class FridgeProductRepository : IFridgeProductRepository
             .Select(fp => new ProductQuantity
             {
                 Product = fp.Product,
-                Quanity = fp.Quantity
+                Quantity = fp.Quantity
             });
     }
 
