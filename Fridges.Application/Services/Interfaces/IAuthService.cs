@@ -9,4 +9,5 @@ public interface IAuthService
     string Login(UserDto request, string secretKey);
     string RefreshToken(string username, string secretKey);
     void GiveRole(GiveRoleDto giveRoleDto);
+    IEnumerable<UserOutputDto> GetAllUsers();
 }

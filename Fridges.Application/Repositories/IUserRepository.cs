@@ -4,6 +4,7 @@ namespace Fridges.Application.Repositories;
 
 public interface IUserRepository
 {
+    IEnumerable<User> GetUsers();
     User GetUserByUsername(string username);
     User GetUserByRefreshToken(string refreshToken);
     void InsertUser(User user);

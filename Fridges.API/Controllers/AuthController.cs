@@ -40,8 +40,8 @@ public class AuthController : ControllerBase
     public IActionResult RefreshToken()
     {
         var username = User.Identity.Name;
-        string secretKey = _configuration.GetSection("JWT:Key").Value;
-        string refreshToken = _authService.RefreshToken(username, secretKey);
+        var secretKey = _configuration.GetSection("JWT:Key").Value;
+        var refreshToken = _authService.RefreshToken(username, secretKey);
 
         return Ok(refreshToken);
     }
@@ -52,5 +52,11 @@ public class AuthController : ControllerBase
         _authService.GiveRole(giveRoleDto);
 
         return Ok();
+    }
+
+    [HttpGet("users"), Authorize(Roles = "Admin")]
+    public IActionResult GetAllUsers()
+    {
+        return Ok(_authService.GetAllUsers());
     }
 }

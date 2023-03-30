@@ -1,4 +1,5 @@
-﻿using Fridges.Application.DTOs;
+﻿using AutoMapper;
+using Fridges.Application.DTOs;
 using Fridges.Application.Repositories;
 using Fridges.Application.Services.Interfaces;
 using Fridges.Domain.Entities;
@@ -106,5 +107,16 @@ public class AuthService : IAuthService
             user.Roles.Add(role);
             _repository.Save();
         }
+    }
+    public IEnumerable<UserOutputDto> GetAllUsers()
+    {
+        var users = _repository.GetUsers();
+
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<User, UserOutputDto>());
+        var mapper = new Mapper(config);
+
+        var userOutputDtos = mapper.Map<List<UserOutputDto>>(users);
+
+        return userOutputDtos;
     }
 }

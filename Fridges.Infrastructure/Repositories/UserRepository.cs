@@ -37,4 +37,9 @@ public class UserRepository : IUserRepository
     {
         _db.SaveChanges();
     }
+
+    public IEnumerable<User> GetUsers()
+    {
+        return _db.Users.Include(u => u.Roles);
+    }
 }
