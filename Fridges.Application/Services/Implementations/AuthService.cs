@@ -108,6 +108,7 @@ public class AuthService : IAuthService
             _repository.Save();
         }
     }
+
     public IEnumerable<UserOutputDto> GetAllUsers()
     {
         var users = _repository.GetUsers();
@@ -118,5 +119,10 @@ public class AuthService : IAuthService
         var userOutputDtos = mapper.Map<List<UserOutputDto>>(users);
 
         return userOutputDtos;
+    }
+
+    public IEnumerable<Role> GetAllRoles()
+    {
+        return _roleRepository.GetRoles();
     }
 }

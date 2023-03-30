@@ -59,4 +59,10 @@ public class AuthController : ControllerBase
     {
         return Ok(_authService.GetAllUsers());
     }
+
+    [HttpGet("roles"), Authorize(Roles = "Admin")]
+    public IActionResult GetAllRoles()
+    {
+        return Ok(_authService.GetAllRoles());
+    }
 }
