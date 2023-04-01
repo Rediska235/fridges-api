@@ -38,7 +38,8 @@ public class ProductService : IProductService
         {
             Id = Guid.NewGuid(),
             Name = productName,
-            DefaultQuantity = createProductDto.DefaultQuantity
+            DefaultQuantity = createProductDto.DefaultQuantity,
+            ImageId = createProductDto.ImageId
         };
 
         _repository.InsertProduct(product);
@@ -59,6 +60,7 @@ public class ProductService : IProductService
 
         product.Name = productName;
         product.DefaultQuantity = updateProductDto.DefaultQuantity;
+        product.ImageId = updateProductDto.ImageId;
 
         _repository.UpdateProduct(product);
         _repository.Save();

@@ -13,6 +13,8 @@ public class Product
 
     public int? DefaultQuantity { get; set; }
 
+    public Guid? ImageId { get; set; }
+
     [JsonIgnore]
     public List<FridgeProduct> FridgeProducts { get; set; }
 }
