@@ -41,9 +41,9 @@ public class AuthController : ControllerBase
     {
         var username = User.Identity.Name;
         var secretKey = _configuration.GetSection("JWT:Key").Value;
-        var jwtToken = _authService.RefreshToken(username, secretKey);
+        var refreshToken = _authService.RefreshToken(username, secretKey);
 
-        return Ok(jwtToken);
+        return Ok(refreshToken);
     }
 
     [HttpPost("give-role"), Authorize(Roles = "Admin")]

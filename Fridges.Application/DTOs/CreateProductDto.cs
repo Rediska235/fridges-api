@@ -8,5 +8,4 @@ public class CreateProductDto
     public string Name { get; set; }
 
     public int? DefaultQuantity { get; set; }
-    public Guid? ImageId { get; set; }
 }

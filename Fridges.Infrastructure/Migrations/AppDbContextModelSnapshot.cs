@@ -99,9 +99,6 @@ namespace Fridges.Infrastructure.Migrations
                     b.Property<int?>("DefaultQuantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ImageId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)

@@ -14,7 +14,6 @@ builder.Services.AddAplicaton();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();
-builder.Services.AddCors();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -74,7 +73,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
-app.UseCors(builder => builder.AllowAnyOrigin());
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
