@@ -102,7 +102,7 @@ public class FridgeService : IFridgeService
             var body = new
             {
                 productId = fridgeProduct.Product.Id,
-                quanity = fridgeProduct.Product.DefaultQuantity
+                quantity = fridgeProduct.Product.DefaultQuantity
             };
             var stringBody = JsonSerializer.Serialize(body);
             var requestBody = new StringContent(stringBody);
