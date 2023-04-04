@@ -14,6 +14,11 @@ public class UserRepository : IUserRepository
         _db = db;
     }
 
+    public IEnumerable<User> GetUsers()
+    {
+        return _db.Users.Include(u => u.Roles);
+    }
+
     public User GetUserByUsername(string username)
     {
         return _db.Users.Include(u => u.Roles).FirstOrDefault(u => u.Username == username);
@@ -36,10 +41,5 @@ public class UserRepository : IUserRepository
     public void Save()
     {
         _db.SaveChanges();
-    }
-
-    public IEnumerable<User> GetUsers()
-    {
-        return _db.Users.Include(u => u.Roles);
     }
 }

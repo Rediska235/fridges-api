@@ -1,6 +1,5 @@
 ﻿using Fridges.Application.DTOs;
 using Fridges.Application.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

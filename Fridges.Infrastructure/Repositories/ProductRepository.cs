@@ -45,7 +45,7 @@ public class ProductRepository : IProductRepository
     {
         _db.Add(product);
     }
-    
+
     public void UpdateProduct(Product product)
     {
         _db.Update(product);

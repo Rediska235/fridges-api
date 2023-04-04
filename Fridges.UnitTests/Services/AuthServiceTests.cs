@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using BCrypt.Net;
 using Fridges.Application.DTOs;
 using Fridges.Application.Repositories;
 using Fridges.Application.Services.Implementations;
@@ -91,7 +90,7 @@ public class AuthServiceTests
         var user = _fixture.Create<User>();
         var userDto = _fixture.Create<UserDto>();
         userDto.Password = "qwerty";
-                            //bcrypt hash for "qwerty"
+        //bcrypt hash for "qwerty"
         user.PasswordHash = "$2a$12$Jp4.xazH7vY.0mHMSobdhe4UlVRsIRyY.WO/uhK4NKbMqRlwAr9KO";
         _userRepository.Setup(x => x.GetUserByUsername(It.IsAny<string>())).Returns(user);
         _httpContextAccessor.Setup(x => x.HttpContext.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
@@ -108,7 +107,7 @@ public class AuthServiceTests
     {
         // Arrange
         _userRepository.Setup(x => x.GetUserByRefreshToken(It.IsAny<string>())).Returns((User)null);
-         _httpContextAccessor.Setup(x => x.HttpContext.Request.Cookies["refreshToken"]).Returns(_fixture.Create<string>());
+        _httpContextAccessor.Setup(x => x.HttpContext.Request.Cookies["refreshToken"]).Returns(_fixture.Create<string>());
 
         // Act
 

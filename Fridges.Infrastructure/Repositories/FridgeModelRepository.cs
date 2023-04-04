@@ -50,7 +50,7 @@ public class FridgeModelRepository : IFridgeModelRepository
     {
         _db.Update(fridgeModel);
     }
-    
+
     public void DeleteFridgeModel(Guid fridgeModelId)
     {
         var fridgeModel = GetFridgeModelById(fridgeModelId);

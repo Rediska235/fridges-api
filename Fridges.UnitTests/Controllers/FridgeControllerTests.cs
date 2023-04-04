@@ -41,7 +41,7 @@ public class FridgeControllerTests
         var resultObject = Assert.IsType<OkObjectResult>(result);
         Assert.Equal(fridges, resultObject.Value);
     }
-    
+
     [Fact]
     public void GetProductsByFridgeId_ReturnsOkObjectResult_WithFridgeAndProducts()
     {

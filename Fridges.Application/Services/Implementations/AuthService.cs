@@ -97,12 +97,12 @@ public class AuthService : IAuthService
         }
 
         var role = _roleRepository.GetRoleByName(giveRoleDto.RoleName);
-        if(role == null)
+        if (role == null)
         {
             throw Exceptions.roleNotFound;
         }
-        
-        if(!user.Roles.Contains(role))
+
+        if (!user.Roles.Contains(role))
         {
             user.Roles.Add(role);
             _repository.Save();

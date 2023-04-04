@@ -13,13 +13,13 @@ public class RoleRepository : IRoleRepository
         _db = db;
     }
 
-    public Role GetRoleByName(string roleName)
-    {
-        return _db.Roles.FirstOrDefault(r => r.Title == roleName);
-    }
-
     public IEnumerable<Role> GetRoles()
     {
         return _db.Roles;
+    }
+
+    public Role GetRoleByName(string roleName)
+    {
+        return _db.Roles.FirstOrDefault(r => r.Title == roleName);
     }
 }

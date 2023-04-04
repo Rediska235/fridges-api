@@ -12,7 +12,7 @@ public class ErrorHandlingMiddleware
     {
         _next = next;
     }
-    
+
     public async Task InvokeAsync(HttpContext context)
     {
         try
@@ -41,7 +41,7 @@ public class ErrorHandlingMiddleware
         var result = JsonSerializer.Serialize(new { error = exception.Message });
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
-        
+
         return context.Response.WriteAsync(result);
     }
 }

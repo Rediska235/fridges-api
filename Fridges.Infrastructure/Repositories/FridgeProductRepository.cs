@@ -51,7 +51,7 @@ public class FridgeProductRepository : IFridgeProductRepository
     public void RemoveFridgeProduct(RemoveProductsDto removeProductsDto)
     {
         var fridgeProduct = GetFridgeProductByIds(removeProductsDto.FridgeId, removeProductsDto.ProductId);
-        if(fridgeProduct != null)
+        if (fridgeProduct != null)
         {
             _db.Remove(fridgeProduct);
         }
@@ -70,10 +70,10 @@ public class FridgeProductRepository : IFridgeProductRepository
             .Include(fp => fp.Product)
             .Where(fp => ids.Contains(fp.Id))
             .ToList();
-        
+
         return fridgeProducts;
     }
-    
+
     public void Save()
     {
         _db.SaveChanges();

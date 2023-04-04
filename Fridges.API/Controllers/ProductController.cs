@@ -1,5 +1,4 @@
-﻿using Fridges.API.DTOs;
-using Fridges.Application.DTOs;
+﻿using Fridges.Application.DTOs;
 using Fridges.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,7 @@ public class ProductController : ControllerBase
     private readonly IProductService _service;
 
     public ProductController(IProductService service)
-    { 
+    {
         _service = service;
     }
 

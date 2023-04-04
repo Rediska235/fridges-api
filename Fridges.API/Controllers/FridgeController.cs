@@ -21,7 +21,7 @@ public class FridgeController : ControllerBase
     {
         return Ok(_service.GetAllFridges());
     }
-    
+
     [HttpGet("{id:guid}")]
     public IActionResult GetProductsByFridgeId(Guid id)
     {

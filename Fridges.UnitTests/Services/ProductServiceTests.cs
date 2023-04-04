@@ -112,7 +112,7 @@ public class ProductServiceTests
     public void DeleteProduct_Successful()
     {
         // Arrange
-        
+
         // Act
         var exception = Record.Exception(() => service.DeleteProduct(_fixture.Create<Guid>()));
 

@@ -13,7 +13,7 @@ public static class JwtManager
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Username)           
+            new Claim(ClaimTypes.Name, user.Username)
         };
 
         foreach (var role in user.Roles)

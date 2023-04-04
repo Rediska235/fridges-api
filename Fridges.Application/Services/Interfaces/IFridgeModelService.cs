@@ -1,5 +1,4 @@
-﻿using Fridges.API.DTOs;
-using Fridges.Application.DTOs;
+﻿using Fridges.Application.DTOs;
 using Fridges.Domain.Entities;
 
 namespace Fridges.Application.Services.Interfaces;

@@ -49,7 +49,7 @@ public class FridgeService : IFridgeService
         if (fridgeProductInDb != null)
         {
             fridgeProductInDb.Quantity += addProductsDto.Quantity;
-            if(fridgeProductInDb.Quantity < 0)
+            if (fridgeProductInDb.Quantity < 0)
             {
                 throw Exceptions.notHaveThisManyProducts;
             }
@@ -58,11 +58,11 @@ public class FridgeService : IFridgeService
         }
         else
         {
-            if(addProductsDto.Quantity < 0)
+            if (addProductsDto.Quantity < 0)
             {
                 throw Exceptions.negativeProductQuantity;
             }
-            
+
             var fridgeProduct = new FridgeProduct()
             {
                 Id = Guid.NewGuid(),
@@ -88,12 +88,12 @@ public class FridgeService : IFridgeService
         _fridgeProductRepository.RemoveFridgeProduct(removeProductsDto);
         _fridgeProductRepository.Save();
     }
-    
+
     public void UpdateProductsQuantity()
     {
         var fridgeProducts = _fridgeProductRepository.GetProductsWithZeroQuantity();
 
-        foreach(var fridgeProduct in fridgeProducts)
+        foreach (var fridgeProduct in fridgeProducts)
         {
             using var httpClient = new HttpClient();
 
@@ -138,7 +138,7 @@ public class FridgeService : IFridgeService
     public Fridge UpdateFridge(UpdateFridgeDto updateFridgeDto)
     {
         var fridge = _repository.GetFridgeById(updateFridgeDto.Id);
-        
+
         var ownerName = updateFridgeDto.OwnerName?.Trim();
         var fridgeName = updateFridgeDto.Name.Trim();
         if (fridgeName != fridge.Name && AlreadyExists(fridgeName))
@@ -161,7 +161,7 @@ public class FridgeService : IFridgeService
         _repository.DeleteFridge(fridgeId);
         _repository.Save();
     }
-    
+
     private bool AlreadyExists(string name)
     {
         try

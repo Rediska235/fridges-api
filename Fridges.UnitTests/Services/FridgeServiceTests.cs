@@ -26,9 +26,9 @@ public class FridgeServiceTests
         _fridgeProductRepository = new Mock<IFridgeProductRepository>();
 
         service = new FridgeService(
-            _fridgeRepository.Object, 
-            _fridgeModelRepository.Object, 
-            _productRepository.Object, 
+            _fridgeRepository.Object,
+            _fridgeModelRepository.Object,
+            _productRepository.Object,
             _fridgeProductRepository.Object);
 
         _fixture = new Fixture();
@@ -141,7 +141,7 @@ public class FridgeServiceTests
     {
         // Arrange
         _fridgeRepository.Setup(x => x.GetFridgeByName(It.IsAny<string>())).Throws(Exceptions.fridgeNotFound);
-        
+
         // Act
         var exception = Record.Exception(() => service.CreateFridge(_fixture.Create<CreateFridgeDto>()));
 
