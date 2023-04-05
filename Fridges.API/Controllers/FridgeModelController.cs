@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fridges.API.Controllers;
 
 [ApiController]
-[Route("/api/fridgemodels")]
+[Route("/api/fridge-models")]
 public class FridgeModelController : ControllerBase
 {
     private readonly IFridgeModelService _service;
