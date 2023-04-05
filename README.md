@@ -1,6 +1,6 @@
 # Fridges
 
-This is a ASP.NET Core Web-API project for managing fridges and products.
+This is an ASP.NET Core Web-API project for managing fridges and products.
 
 This is only a server part of a client-server application.
 
@@ -245,5 +245,19 @@ This is only a server part of a client-server application.
 
   ### Response 
   <sup>(204 No Content)</sup>
-  </details
+</details>
 
+## Installation details
+
+- Change the connection string (in appsettings.json)
+- Run `dotnet ef database update` command
+- Add "Admin" role to the user in SQL (optional)
+- Set user secret for JWT:Key (in secrets.json or via CLI)
+```
+{
+  "JWT": {
+    "Key": "6gAiq^DrbL6R&cbj"
+  }
+}
+```
+- Ignore all exceptions that pauses the application (they all are handled)
