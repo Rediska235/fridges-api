@@ -1,4 +1,4 @@
-# Fridges
+# Fridge-base
 
 This is an ASP.NET Core Web-API project for managing fridges and products.
 
