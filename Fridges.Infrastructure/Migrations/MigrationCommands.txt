@@ -1,0 +1,3 @@
+﻿dotnet ef migrations add AddRoles --project C:\Users\rediska\source\repos\Fridges.API\Fridges.Infrastructure\Fridges.Infrastructure.csproj --startup-project C:\Users\rediska\source\repos\Fridges.API\Fridges.API\Fridges.API.csproj
+
+dotnet ef database update --project C:\Users\rediska\source\repos\Fridges.API\Fridges.Infrastructure\Fridges.Infrastructure.csproj --startup-project C:\Users\rediska\source\repos\Fridges.API\Fridges.API\Fridges.API.csproj
